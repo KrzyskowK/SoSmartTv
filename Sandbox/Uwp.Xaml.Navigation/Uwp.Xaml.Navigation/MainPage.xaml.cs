@@ -9,13 +9,7 @@ namespace Uwp.Xaml.Navigation
 		public MainPage()
 		{
 			this.InitializeComponent();
-			this.Loaded += OnLoaded;
-		}
-
-		private void OnLoaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-		{
-			ViewModel = new MainViewModel(NavigationServiceProvider.GetNavigationService());
-			Bindings.Update();
+			ViewModel = new MainViewModel(NestedNavigationServiceProvider.GetNavigationServiceAndRegisterFrame(FrameTargets.RootFrame, RootFrame));
 		}
 
 		public MainViewModel ViewModel { get; private set; }

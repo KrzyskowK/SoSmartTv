@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 using Uwp.Xaml.Navigation.Navigation;
 using Uwp.Xaml.Navigation.ViewModels;
 
@@ -16,10 +17,11 @@ namespace Uwp.Xaml.Navigation.Pages
 		{
 			this.InitializeComponent();
 			Debug.WriteLine(string.Format("Creating: {0}", GetType().Name));
+			NavigationCacheMode = NavigationCacheMode.Enabled;
 
-			//ViewModel = new PageThreeViewModel(NavigationServiceProvider.GetNavigationService());
+			ViewModel = new PageThreeViewModel(NestedNavigationServiceProvider.GetNavigationServiceAndRegisterFrame(FrameTargets.SubFrame,this.SubFrame));
 		}
 
-		//public PageThreeViewModel ViewModel { get; }
+		public PageThreeViewModel ViewModel { get; }
 	}
 }

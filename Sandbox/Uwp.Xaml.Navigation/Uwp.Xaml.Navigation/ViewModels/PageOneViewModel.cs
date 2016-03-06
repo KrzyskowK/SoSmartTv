@@ -6,16 +6,16 @@ namespace Uwp.Xaml.Navigation.ViewModels
 {
 	public class PageOneViewModel
 	{
-		private readonly INavigationService _navigationService;
+		private readonly INestedNavigationService _navigationService;
 
-		public PageOneViewModel(INavigationService navigationService)
+		public PageOneViewModel(INestedNavigationService navigationService)
 		{
 			_navigationService = navigationService;
 		}
 
 		public void OnClick(object sender, RoutedEventArgs e)
 		{
-			_navigationService.Navigate(typeof (PageThree));
+			_navigationService.Navigate(FrameTargets.RootFrame,PageTargets.PageThree);
 		}
 	}
 }

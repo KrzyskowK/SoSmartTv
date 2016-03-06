@@ -5,6 +5,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Uwp.Xaml.Navigation.Navigation;
 
 namespace Uwp.Xaml.Navigation
 {
@@ -19,49 +20,37 @@ namespace Uwp.Xaml.Navigation
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
 			var mainPage = Window.Current.Content as MainPage;
-
 			if (mainPage == null)
 			{
 				mainPage = new MainPage();
-				mainPage.RootFrame.NavigationFailed += OnNavigationFailed;
-
 				if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
 				{
 					//TODO: Load state from previously suspended application
 				}
-
 				Window.Current.Content = mainPage;
-
-				mainPage.RootFrame.Navigated += OnNavigated;
+				
+				NestedNavigationServiceProvider.GetNavigationService().Navigated += OnNavigated;
 				SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-				SetBackButtonVisibility(mainPage.RootFrame);
+				SetBackButtonVisibility();
 			}
-			
 			Window.Current.Activate();
 		}
 
 		private void OnNavigated(object sender, NavigationEventArgs e)
 		{
-			var mainPage = Window.Current.Content as MainPage;
-			SetBackButtonVisibility(mainPage.RootFrame);
+			SetBackButtonVisibility();
 		}
 
 		private void OnBackRequested(object sender, BackRequestedEventArgs e)
 		{
-			var mainPage = Window.Current.Content as MainPage;
-			mainPage.RootFrame.GoBack();
+			NestedNavigationServiceProvider.GetNavigationService().GoBack();
 		}
 
-		private void SetBackButtonVisibility(Frame rootFrame)
+		private void SetBackButtonVisibility()
 		{
-			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
+			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NestedNavigationServiceProvider.GetNavigationService().CanGoBack
 				? AppViewBackButtonVisibility.Visible
 				: AppViewBackButtonVisibility.Collapsed;
-		}
-
-		void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-		{
-			throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
 		}
 
 		private void OnSuspending(object sender, SuspendingEventArgs e)

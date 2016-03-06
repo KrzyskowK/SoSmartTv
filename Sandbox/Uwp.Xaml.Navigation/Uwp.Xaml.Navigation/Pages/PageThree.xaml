@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Center">Page Three</TextBlock>
-        <!--<Grid>
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -22,6 +22,6 @@
                   SelectedItem="{x:Bind ViewModel.SelectedSubNavigationTarget, Mode=OneWay}"
                   IsItemClickEnabled="True" ItemClick="{x:Bind ViewModel.OnSubNavigationTargetClick}" ></ListView>
             <Frame Grid.Column="1" x:Name="SubFrame"></Frame>
-        </Grid>-->
+        </Grid>
     </Grid>
 </Page>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml.Controls;
@@ -8,15 +9,16 @@ namespace Uwp.Xaml.Navigation.ViewModels
 {
 	public class MainViewModel : NotificationObject
 	{
-		public MainViewModel(INavigationService navigationService)
+		public MainViewModel(INestedNavigationService navigationService)
 		{
 			_navigationService = navigationService;
 			_navigationService.Navigated += OnNavigated;
+			_navigationService.Disposing += OnDisposing;
 			NavigationTargets = new List<NavigationTargeViewModel>()
 			{
-				new NavigationTargeViewModel("Page One", typeof(PageOne)),
-				new NavigationTargeViewModel("Page Two", typeof(PageTwo)),
-				new NavigationTargeViewModel("Page Three", typeof(PageThree))
+				new NavigationTargeViewModel("Page One", PageTargets.PageOne),
+				new NavigationTargeViewModel("Page Two", PageTargets.PageTwo),
+				new NavigationTargeViewModel("Page Three", PageTargets.PageThree)
 			};
 		}
 
@@ -36,7 +38,14 @@ namespace Uwp.Xaml.Navigation.ViewModels
 		{
 			var navigationTarget = e.ClickedItem as NavigationTargeViewModel;
 			if (navigationTarget != null)
-				_navigationService.Navigate(navigationTarget.TargetType, navigationTarget);
+				_navigationService.Navigate(FrameTargets.RootFrame, navigationTarget.TargetType, navigationTarget);
+		}
+		
+		private void OnDisposing(object sender, string e)
+		{
+			if (e != FrameTargets.RootFrame) return;
+			_navigationService.Navigated -= OnNavigated;
+			_navigationService.Disposing -= OnDisposing;
 		}
 
 		private void OnNavigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
@@ -45,7 +54,7 @@ namespace Uwp.Xaml.Navigation.ViewModels
 				SelectedNavigationTarget = NavigationTargets.Single(x => x.TargetType == e.SourcePageType);
 		}
 
-		private readonly INavigationService _navigationService;
+		private readonly INestedNavigationService _navigationService;
 		private NavigationTargeViewModel _selectedNavigationTarget;
 	}
 }

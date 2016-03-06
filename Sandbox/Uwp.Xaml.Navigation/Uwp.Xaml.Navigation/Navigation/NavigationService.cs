@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -20,7 +21,7 @@ namespace Uwp.Xaml.Navigation.Navigation
 		}
 
 		public NavigatedEventHandler Navigated { get; set; }
-
+		
 		public void Navigate(Type sourcePageType, object context)
 		{
 			_frame.Navigate(sourcePageType, context);

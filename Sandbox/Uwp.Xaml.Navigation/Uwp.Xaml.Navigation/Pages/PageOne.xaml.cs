@@ -19,7 +19,7 @@ namespace Uwp.Xaml.Navigation.Pages
 			this.InitializeComponent();
 			Debug.WriteLine(string.Format("Creating: {0}", GetType().Name));
 			
-			ViewModel = new PageOneViewModel(NavigationServiceProvider.GetNavigationService());
+			ViewModel = new PageOneViewModel(NestedNavigationServiceProvider.GetNavigationService());
 		}
 
 		public PageOneViewModel ViewModel { get; }

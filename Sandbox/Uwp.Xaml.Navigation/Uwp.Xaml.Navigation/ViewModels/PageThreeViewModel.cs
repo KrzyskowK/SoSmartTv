@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -10,15 +12,23 @@ namespace Uwp.Xaml.Navigation.ViewModels
 {
 	public class PageThreeViewModel : NotificationObject
 	{
-		public PageThreeViewModel(INavigationService navigationService)
+		public PageThreeViewModel(INestedNavigationService navigationService)
 		{
 			_navigationService = navigationService;
 			_navigationService.Navigated += OnNavigated;
+			_navigationService.Disposing += OnDisposing;
 			SubNavigationTargets = new List<NavigationTargeViewModel>()
 			{
-				new NavigationTargeViewModel("Page A", typeof(SubPageA)),
-				new NavigationTargeViewModel("Page B", typeof(SubPageB)),
+				new NavigationTargeViewModel("Page A", PageTargets.SubPageTargets.SubPageA),
+				new NavigationTargeViewModel("Page B", PageTargets.SubPageTargets.SubPageB),
 			};
+		}
+
+		private void OnDisposing(object sender, string e)
+		{
+			if (e != FrameTargets.SubFrame) return;
+			_navigationService.Navigated -= OnNavigated;
+			_navigationService.Disposing -= OnDisposing;
 		}
 
 		private void OnNavigated(object sender, NavigationEventArgs e)
@@ -28,7 +38,7 @@ namespace Uwp.Xaml.Navigation.ViewModels
 		}
 
 		private NavigationTargeViewModel _selectedSubNavigationTarget;
-		private readonly INavigationService _navigationService;
+		private readonly INestedNavigationService _navigationService;
 		public IList<NavigationTargeViewModel> SubNavigationTargets { get; }
 
 		public NavigationTargeViewModel SelectedSubNavigationTarget
@@ -45,7 +55,7 @@ namespace Uwp.Xaml.Navigation.ViewModels
 		{
 			var navigationTarget = e.ClickedItem as NavigationTargeViewModel;
 			if (navigationTarget != null)
-				_navigationService.Navigate(navigationTarget.TargetType, navigationTarget);
+				_navigationService.Navigate(FrameTargets.SubFrame, navigationTarget.TargetType, navigationTarget);
 		}
 	}
 }

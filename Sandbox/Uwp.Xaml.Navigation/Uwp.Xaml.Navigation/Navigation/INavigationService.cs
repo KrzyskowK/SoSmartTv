@@ -11,4 +11,28 @@ namespace Uwp.Xaml.Navigation.Navigation
 
 		NavigatedEventHandler Navigated { get; set; }
 	}
+
+	public interface INavigationServiceParentMap 
+	{
+		string ParentFrameTargetKey { get; }
+
+		bool HasParentFrameTargetKey { get; }
+
+		INavigationService NagivationService { get; }
+	}
+
+	public class NavigationServiceParentMap : INavigationServiceParentMap
+	{
+		public NavigationServiceParentMap(string parentFrameTargetKey, INavigationService navigationService)
+		{
+			NagivationService = navigationService;
+			ParentFrameTargetKey = parentFrameTargetKey;
+		}
+
+		public string ParentFrameTargetKey { get; }
+
+		public bool HasParentFrameTargetKey => !string.IsNullOrEmpty(ParentFrameTargetKey);
+
+		public INavigationService NagivationService { get; }
+	}
 }
