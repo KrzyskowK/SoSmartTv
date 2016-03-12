@@ -22,6 +22,24 @@ namespace Uwp.Xaml.Navigation.Pages
 			ViewModel = new PageOneViewModel(NestedNavigationServiceProvider.GetNavigationService());
 		}
 
+		protected override void OnNavigatedFrom(NavigationEventArgs e)
+		{
+			Debug.WriteLine("OnNavigatedFrom");
+			base.OnNavigatedFrom(e);
+		}
+
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			base.OnNavigatedTo(e);
+		}
+
+		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+		{
+			e.Cancel = true;
+			Debug.WriteLine("OnNavigatedFromCancel");
+			base.OnNavigatingFrom(e);
+		}
+
 		public PageOneViewModel ViewModel { get; }
 	}
 }

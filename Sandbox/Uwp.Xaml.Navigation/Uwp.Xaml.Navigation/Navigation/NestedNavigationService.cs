@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Uwp.Xaml.Navigation.ViewModels;
 
 namespace Uwp.Xaml.Navigation.Navigation
 {
@@ -12,20 +15,20 @@ namespace Uwp.Xaml.Navigation.Navigation
 		private readonly Dictionary<string, IList<string>> _framesMap = new Dictionary<string, IList<string>>();
 		private readonly Stack<string> _navigationStack = new Stack<string>();
 
-		public void Navigate(string frameTargetKey, Type sourcePageType, object context)
+		public void Navigate(string frameKey, Type sourcePageType, object context)
 		{
-			_navigationServiceRegister[frameTargetKey].Navigate(sourcePageType, context);
+			_navigationServiceRegister[frameKey].Navigate(sourcePageType, context);
 		}
 
-		public void Navigate(string frameTargetKey, Type sourcePageType)
+		public void Navigate(string frameKey, Type sourcePageType)
 		{
-			_navigationServiceRegister[frameTargetKey].Navigate(sourcePageType);
+			_navigationServiceRegister[frameKey].Navigate(sourcePageType);
 		}
 
 		public void GoBack()
 		{
-			var last = _navigationStack.Pop();
-			var frame = _navigationServiceRegister[last];
+			var key = _navigationStack.Pop();
+			var frame = _navigationServiceRegister[key];
 			if (frame.CanGoBack)
 				frame.GoBack();
 			else if (CanGoBack) GoBack();
@@ -51,41 +54,45 @@ namespace Uwp.Xaml.Navigation.Navigation
 
 		public EventHandler<string> Disposing { get; set; }
 
-		public void RegisterFrame(string frameTargetKey, Frame frame, string frameTargetKeyParent = null)
+		public void RegisterFrame(string frameKey, Frame frame, string parentFrameKey = null)
 		{
-			if (IsFrameRegistered(frameTargetKey))
-				UnRegisterFrame(frameTargetKey);
+			if (IsFrameRegistered(frameKey))
+				UnRegisterFrame(frameKey);
 
-			RegisterFrameMap(frameTargetKey, frameTargetKeyParent);
+			RegisterFrameMap(frameKey, parentFrameKey);
 
-			_navigationServiceRegister.Add(frameTargetKey, frame);
-			_navigationServiceRegister[frameTargetKey].Navigated += OnFrameNavigated;
-			_navigationServiceRegister[frameTargetKey].Navigating += OnFrameNavigating;
+			_navigationServiceRegister.Add(frameKey, frame);
+			_navigationServiceRegister[frameKey].Navigated += OnFrameNavigated;
+			_navigationServiceRegister[frameKey].Navigating += OnFrameNavigating;
+			_navigationServiceRegister[frameKey].Navigated += (s, e) => Debug.WriteLine("Frame Navigated");
+			_navigationServiceRegister[frameKey].Navigating += (s, e) => Debug.WriteLine("Frame Navigating");
+			_navigationServiceRegister[frameKey].NavigationFailed += (s, e) => Debug.WriteLine("Frame NavigationFailed");
+			_navigationServiceRegister[frameKey].NavigationStopped += (s, e) => Debug.WriteLine("Frame NavigationStopped");
 		}
 
-		private void RegisterFrameMap(string frameTargetKey, string frameTargetKeyParent)
+		private void RegisterFrameMap(string frameKey, string parentFrameKey)
 		{
-			_framesMap.Add(frameTargetKey, new List<string>());
-			if (frameTargetKeyParent != null)
-				_framesMap[frameTargetKeyParent].Add(frameTargetKey);
+			_framesMap.Add(frameKey, new List<string>());
+			if (parentFrameKey != null)
+				_framesMap[parentFrameKey].Add(frameKey);
 		}
 
-		public void UnRegisterFrame(string frameTargetKey)
+		public void UnRegisterFrame(string frameKey)
 		{
-			foreach (var childFrameKey in _framesMap[frameTargetKey])
+			foreach (var childFrameKey in _framesMap[frameKey])
 			{
 				UnRegisterFrame(childFrameKey);
 			}
 
-			Disposing?.Invoke(this, frameTargetKey);
-			_framesMap.Remove(frameTargetKey);
-			_navigationServiceRegister[frameTargetKey].Navigated -= OnFrameNavigated;
-			_navigationServiceRegister.Remove(frameTargetKey);
+			Disposing?.Invoke(this, frameKey);
+			_framesMap.Remove(frameKey);
+			_navigationServiceRegister[frameKey].Navigated -= OnFrameNavigated;
+			_navigationServiceRegister.Remove(frameKey);
 		}
 
-		public bool IsFrameRegistered(string frameTargetKey)
+		public bool IsFrameRegistered(string frameKey)
 		{
-			return _navigationServiceRegister.ContainsKey(frameTargetKey);
+			return _navigationServiceRegister.ContainsKey(frameKey);
 		}
 	}
 }

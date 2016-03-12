@@ -6,9 +6,9 @@ namespace Uwp.Xaml.Navigation.Navigation
 {
 	public interface INestedNavigationService
 	{
-		void Navigate(string frameTargetKey, Type sourcePageType, object context);
+		void Navigate(string frameKey, Type sourcePageType, object context);
 
-		void Navigate(string frameTargetKey, Type sourcePageType);
+		void Navigate(string frameKey, Type sourcePageType);
 
 		void GoBack();
 
@@ -18,10 +18,10 @@ namespace Uwp.Xaml.Navigation.Navigation
 
 		EventHandler<string> Disposing { get; set; }
 
-		void RegisterFrame(string frameTargetKey, Frame frame, string frameTargetKeyParent = null);
+		void RegisterFrame(string frameKey, Frame frame, string parentFrameKey = null);
 
-		void UnRegisterFrame(string frameTargetKey);
+		void UnRegisterFrame(string frameKey);
 
-		bool IsFrameRegistered(string frameTargetKey);
+		bool IsFrameRegistered(string frameKey);
 	}
 }
