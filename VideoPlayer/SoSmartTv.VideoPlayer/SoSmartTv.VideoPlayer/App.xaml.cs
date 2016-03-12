@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
@@ -6,7 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Autofac;
 using Prism.Autofac.Windows;
-using Prism.Windows.AppModel;
+using Prism.Mvvm;
 
 namespace SoSmartTv.VideoPlayer
 {
@@ -22,6 +23,14 @@ namespace SoSmartTv.VideoPlayer
 			var shell = Container.Resolve<AppShell>();
 			shell.SetContentFrame(rootFrame);
 			return shell;
+		}
+
+		protected override Type GetPageType(string pageToken)
+		{
+			Type type = Type.GetType(string.Format(CultureInfo.InvariantCulture, this.GetType().AssemblyQualifiedName.Replace(this.GetType().FullName, this.GetType().Namespace + ".Views.{0}View"), pageToken));
+			if (type != null)
+				return type;
+			throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceLoader.GetForCurrentView("/Prism.Windows/Resources/").GetString("DefaultPageTypeLookupErrorMessage"), pageToken, this.GetType().Namespace + ".Views"), nameof(pageToken));
 		}
 
 		protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)

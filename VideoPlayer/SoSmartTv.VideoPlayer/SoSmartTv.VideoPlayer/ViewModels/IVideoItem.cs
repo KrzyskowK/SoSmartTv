@@ -2,6 +2,7 @@
 {
 	public interface IVideoItem
 	{
+		string Title { get; }
 		string SourcePath { get; }
 		string Genre { get; }
 		string Description { get; }

@@ -1,0 +1,26 @@
+﻿<Page
+    x:Class="SoSmartTv.VideoPlayer.Views.VideoCollectionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SoSmartTv.VideoPlayer.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:SoSmartTv.VideoPlayer.ViewModels"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Hub>
+            <HubSection Header="Movies">
+                <DataTemplate x:DataType="viewModels:IVideoItem" >
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind Title}"></TextBlock>
+                        <TextBlock Text="{x:Bind Description}"></TextBlock>
+                        <TextBlock Text="{x:Bind PosterSource}"></TextBlock>
+                        <TextBlock Text="{x:Bind Genre}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </HubSection>
+        </Hub>
+        <TextBlock Text="Videos"></TextBlock>
+    </Grid>
+</Page>

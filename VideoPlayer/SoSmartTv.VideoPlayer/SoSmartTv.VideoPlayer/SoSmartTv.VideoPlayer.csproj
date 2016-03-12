@@ -108,8 +108,11 @@
     <Compile Include="ViewModels\VideoCollectionViewModel.cs" />
     <Compile Include="ViewModels\VideoItem.cs" />
     <Compile Include="ViewModels\VideoPlayerViewModel.cs" />
-    <Compile Include="Views\VideoPlayerPage.xaml.cs">
-      <DependentUpon>VideoPlayerPage.xaml</DependentUpon>
+    <Compile Include="Views\VideoCollectionView.xaml.cs">
+      <DependentUpon>VideoCollectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VideoPlayerView.xaml.cs">
+      <DependentUpon>VideoPlayerView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -137,7 +140,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\VideoPlayerPage.xaml">
+    <Page Include="Views\VideoCollectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VideoPlayerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

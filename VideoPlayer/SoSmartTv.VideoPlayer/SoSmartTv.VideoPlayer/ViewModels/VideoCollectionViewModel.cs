@@ -4,7 +4,7 @@ using SoSmartTv.VideoPlayer.Services;
 
 namespace SoSmartTv.VideoPlayer.ViewModels
 {
-	public class VideoCollectionViewModel : ViewModelBase, IVideoCollectionViewModel
+	public class VideoCollectionViewModel :  ViewModelBase, IVideoCollectionViewModel
 	{
 		public VideoCollectionViewModel(IVideoItemsProvider provider)
 		{
