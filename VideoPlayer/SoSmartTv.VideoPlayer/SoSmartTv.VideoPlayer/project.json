@@ -1,8 +1,7 @@
 ﻿{
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
-    "Prism.Autofac": "6.1.1",
-    "xamlSpy": "3.0.3"
+    "Prism.Autofac": "6.1.1"
   },
   "frameworks": {
     "uap10.0": {}

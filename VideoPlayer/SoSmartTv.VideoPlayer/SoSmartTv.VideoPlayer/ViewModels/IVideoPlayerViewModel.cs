@@ -1,6 +1,6 @@
 namespace SoSmartTv.VideoPlayer.ViewModels
 {
-	public interface IVideoPlayerPageViewModel
+	public interface IVideoPlayerViewModel
 	{
 		string VideoSourcePath { get; }
 	}

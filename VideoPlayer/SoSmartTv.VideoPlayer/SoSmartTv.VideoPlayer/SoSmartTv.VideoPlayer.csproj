@@ -104,10 +104,10 @@
     <Compile Include="Services\MockedVideoItemsProvider.cs" />
     <Compile Include="ViewModels\IVideoCollectionViewModel.cs" />
     <Compile Include="ViewModels\IVideoItem.cs" />
-    <Compile Include="ViewModels\IVideoPlayerPageViewModel.cs" />
+    <Compile Include="ViewModels\IVideoPlayerViewModel.cs" />
     <Compile Include="ViewModels\VideoCollectionViewModel.cs" />
     <Compile Include="ViewModels\VideoItem.cs" />
-    <Compile Include="ViewModels\VideoPlayerPageViewModel.cs" />
+    <Compile Include="ViewModels\VideoPlayerViewModel.cs" />
     <Compile Include="Views\VideoPlayerPage.xaml.cs">
       <DependentUpon>VideoPlayerPage.xaml</DependentUpon>
     </Compile>

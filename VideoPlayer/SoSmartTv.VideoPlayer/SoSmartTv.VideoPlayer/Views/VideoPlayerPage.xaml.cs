@@ -13,9 +13,9 @@ namespace SoSmartTv.VideoPlayer.Views
 			this.InitializeComponent();
 		}
 		
-		public IVideoPlayerPageViewModel PageViewModel
+		public IVideoPlayerViewModel ViewModel
 		{
-			get { return DataContext as IVideoPlayerPageViewModel; }
+			get { return DataContext as IVideoPlayerViewModel; }
 		}
 	}
 }

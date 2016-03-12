@@ -2,9 +2,9 @@
 
 namespace SoSmartTv.VideoPlayer.ViewModels
 {
-	public class VideoPlayerPageViewModel : ViewModelBase, IVideoPlayerPageViewModel
+	public class VideoPlayerViewModel : ViewModelBase, IVideoPlayerViewModel
 	{
-		public VideoPlayerPageViewModel()
+		public VideoPlayerViewModel()
 		{
 			
 		}
