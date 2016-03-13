@@ -8,22 +8,20 @@ using Windows.UI.Xaml.Controls;
 using Autofac;
 using Prism.Autofac.Windows;
 
-namespace SoSmartTv.VideoPlayer
+namespace Uwp.Xaml.Navigation.Prism
 {
-	public sealed partial class App : PrismAutofacApplication
+	sealed partial class App : PrismAutofacApplication
 	{
 		public App()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 		}
 
 		protected override UIElement CreateShell(Frame rootFrame)
 		{
-			var shell = Container.Resolve<AppShell>();
-			shell.SetContentFrame(rootFrame);	
+			var shell = Container.Resolve<MainPage>();
+			shell.SetFrame(rootFrame);
 			return shell;
-
-			 
 		}
 
 		protected override Type GetPageType(string pageToken)
@@ -34,9 +32,15 @@ namespace SoSmartTv.VideoPlayer
 			throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceLoader.GetForCurrentView("/Prism.Windows/Resources/").GetString("DefaultPageTypeLookupErrorMessage"), pageToken, GetType().Namespace + ".Views"), nameof(pageToken));
 		}
 
+		protected override void ConfigureViewModelLocator()
+		{
+			
+			base.ConfigureViewModelLocator();
+		}
+
 		protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
 		{
-			NavigationService.Navigate("VideoPlayer", null);
+			NavigationService.Navigate("First", new object());
 			Window.Current.Activate();
 			return Task.FromResult(true);
 		}
