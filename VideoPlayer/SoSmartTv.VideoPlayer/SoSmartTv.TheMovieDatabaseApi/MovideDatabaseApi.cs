@@ -18,10 +18,20 @@ namespace SoSmartTv.TheMovieDatabaseApi
 
 		public async Task<VideoSearchResults> SearchVideo(string searchText)
 		{
-			var response = await _http.GetAsync(string.Format("search/movie?query={0}", searchText));
+			return await GetFromApi<VideoSearchResults>(string.Format("search/movie?query={0}", searchText));
+		}
+
+		public async Task<VideoDetailsInfo> GetVideoDetails(int id)
+		{
+			return await GetFromApi<VideoDetailsInfo>(string.Format("movie/{0}", id));
+		}
+
+		private async Task<T> GetFromApi<T>(string query)
+		{
+			var response = await _http.GetAsync(query);
 			var jsonData = await response.Content.ReadAsStringAsync();
 			var settings = new JsonSerializerSettings() { ContractResolver = new UnderscoreToPascalCaseContractResolver() };
-			var result = JsonConvert.DeserializeObject<VideoSearchResults>(jsonData, settings);
+			var result = JsonConvert.DeserializeObject<T>(jsonData, settings);
 
 			return result;
 		}

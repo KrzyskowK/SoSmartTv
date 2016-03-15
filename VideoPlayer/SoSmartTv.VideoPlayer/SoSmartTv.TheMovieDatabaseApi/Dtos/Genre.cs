@@ -1,6 +1,6 @@
 namespace SoSmartTv.TheMovieDatabaseApi.Dtos
 {
-	public enum Genre
+	public enum Genre 
 	{
 
 	}

@@ -6,5 +6,7 @@ namespace SoSmartTv.TheMovieDatabaseApi
 	public interface IMovieDatabasApi
 	{
 		Task<VideoSearchResults> SearchVideo(string searchText);
+
+		Task<VideoDetailsInfo> GetVideoDetails(int id);
 	}
 }

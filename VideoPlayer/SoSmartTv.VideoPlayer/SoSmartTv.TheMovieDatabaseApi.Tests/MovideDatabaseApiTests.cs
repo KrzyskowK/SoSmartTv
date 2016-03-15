@@ -15,41 +15,19 @@ namespace SoSmartTv.TheMovieDatabaseApi.Tests
 		}
 
 		[TestMethod]
-		public void Search_returns_correct_result()
+		public void SearchVideo_returns_correct_result()
 		{
 			var result = _sut.SearchVideo("batman");
 			result.Wait();
-			var x = result.Result;
-			Assert.IsNotNull(x);
-		}
-	}
-
-	[TestClass]
-	public class UnderscoreToPascalCaseContractResolverTests
-	{
-		private UnderscoreToPascalCaseContractResolver _sut;
-
-		[TestInitialize]
-		public void Setup()
-		{
-			_sut = new UnderscoreToPascalCaseContractResolver();
+			Assert.IsNotNull(result.Result);
 		}
 
 		[TestMethod]
-		public void Dummy()
+		public void GetVideoDetails_returns_correct_result()
 		{
-			Assert.AreEqual(1, 1);
-		}
-		
-		[DataTestMethod]
-		[DataRow("Page", "page")]
-		[DataRow("PageNumber", "page_number")]
-		[DataRow("PageNumberTwo", "page_number_two")]
-		[DataRow("page", "page")]
-		public void Should_return_correct_property_names(string input, string expectedOutput)
-		{
-			var output = _sut.GetResolvedPropertyName(input);
-			Assert.AreEqual(expectedOutput, output);
+			var result = _sut.GetVideoDetails(550);
+			result.Wait();
+			Assert.IsNotNull(result.Result);
 		}
 	}
 }

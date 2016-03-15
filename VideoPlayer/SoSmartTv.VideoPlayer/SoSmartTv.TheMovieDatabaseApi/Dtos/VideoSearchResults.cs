@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SoSmartTv.TheMovieDatabaseApi
+namespace SoSmartTv.TheMovieDatabaseApi.Dtos
 {
 	public class VideoSearchResults
 	{
