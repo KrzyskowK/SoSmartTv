@@ -12,5 +12,7 @@ namespace SoSmartTv.VideoPlayer.ViewModels
 		}
 
 		public ObservableCollection<IVideoItem> Videos { get; }
+
+		public int SelectedVideoId { get; set; }
 	}
 }

@@ -6,21 +6,36 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:SoSmartTv.VideoPlayer.ViewModels"
+    xmlns:mvvm="using:Prism.Windows.Mvvm"
+    mvvm:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Hub>
-            <HubSection Header="Movies">
-                <DataTemplate x:DataType="viewModels:IVideoItem" >
-                    <StackPanel>
-                        <TextBlock Text="{x:Bind Title}"></TextBlock>
-                        <TextBlock Text="{x:Bind Description}"></TextBlock>
-                        <TextBlock Text="{x:Bind PosterSource}"></TextBlock>
-                        <TextBlock Text="{x:Bind Genre}"></TextBlock>
+    <Page.Resources>
+        
+    </Page.Resources>
+    
+    <Grid Background="Black" >
+        <GridView ItemsSource="{x:Bind ViewModel.Videos}" >
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:IVideoItem">
+                    <StackPanel Orientation="Vertical" Margin="5">
+                        <StackPanel Orientation="Vertical">
+                            <Image Width="200" Height="266"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Source="{x:Bind PosterSource}"
+                                   Margin="4" />
+                            <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{x:Bind Title}" Foreground="DarkGray" />
+                            
+                        </StackPanel>
+
+                        <!--<TextBlock Text="{x:Bind Title}" />
+                        <TextBlock Text="{x:Bind Description}" />
+                        <TextBlock Text="{x:Bind PosterSource}" />
+                        <TextBlock Text="{x:Bind Genre}" />-->
                     </StackPanel>
                 </DataTemplate>
-            </HubSection>
-        </Hub>
-        <TextBlock Text="Videos"></TextBlock>
+            </GridView.ItemTemplate>
+        </GridView>
+
     </Grid>
 </Page>

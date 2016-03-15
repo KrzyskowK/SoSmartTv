@@ -7,6 +7,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Autofac;
 using Prism.Autofac.Windows;
+using Prism.Windows.Mvvm;
+using SoSmartTv.VideoPlayer.Services;
 
 namespace SoSmartTv.VideoPlayer
 {
@@ -22,8 +24,6 @@ namespace SoSmartTv.VideoPlayer
 			var shell = Container.Resolve<AppShell>();
 			shell.SetContentFrame(rootFrame);	
 			return shell;
-
-			 
 		}
 
 		protected override Type GetPageType(string pageToken)
@@ -32,6 +32,13 @@ namespace SoSmartTv.VideoPlayer
 			if (type != null)
 				return type;
 			throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceLoader.GetForCurrentView("/Prism.Windows/Resources/").GetString("DefaultPageTypeLookupErrorMessage"), pageToken, GetType().Namespace + ".Views"), nameof(pageToken));
+		}
+
+		protected override void ConfigureContainer(ContainerBuilder builder)
+		{
+			builder.RegisterType<MockedVideoItemsProvider>().As<IVideoItemsProvider>();
+
+			base.ConfigureContainer(builder);
 		}
 
 		protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)

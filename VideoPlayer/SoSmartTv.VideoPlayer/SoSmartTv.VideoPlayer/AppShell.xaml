@@ -9,6 +9,8 @@
     mc:Ignorable="d">
 
     <Grid Background="Blue">
-        <ContentControl x:Name="Placeholder" />
+        <ContentControl HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                        VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"
+                        x:Name="Placeholder" />
     </Grid>
 </Page>
