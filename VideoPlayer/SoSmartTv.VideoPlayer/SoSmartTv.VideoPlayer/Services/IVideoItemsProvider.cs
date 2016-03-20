@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using SoSmartTv.VideoPlayer.ViewModels;
 
 namespace SoSmartTv.VideoPlayer.Services
 {
 	public interface IVideoItemsProvider
 	{
-		IList<IVideoItem> GetVideoItems();
+		Task<IList<IVideoItem>> GetVideoItems();
 	}
 }

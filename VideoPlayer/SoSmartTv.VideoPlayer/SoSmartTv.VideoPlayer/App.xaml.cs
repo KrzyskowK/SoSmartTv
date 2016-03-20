@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Autofac;
 using Prism.Autofac.Windows;
 using Prism.Windows.Mvvm;
+using SoSmartTv.TheMovieDatabaseApi;
 using SoSmartTv.VideoPlayer.Services;
 
 namespace SoSmartTv.VideoPlayer
@@ -36,8 +37,9 @@ namespace SoSmartTv.VideoPlayer
 
 		protected override void ConfigureContainer(ContainerBuilder builder)
 		{
+			builder.RegisterType<MovideDatabaseApi>().As<IMovieDatabaseApi>();
 			builder.RegisterType<MockedVideoItemsProvider>().As<IVideoItemsProvider>();
-
+			
 			base.ConfigureContainer(builder);
 		}
 

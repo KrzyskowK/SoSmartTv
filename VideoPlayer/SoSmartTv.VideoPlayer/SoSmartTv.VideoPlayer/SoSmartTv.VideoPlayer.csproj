@@ -165,7 +165,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SoSmartTv.TheMovieDatabaseApi\SoSmartTv.TheMovieDatabaseApi.csproj">
+      <Project>{B147822F-2B99-41F9-917B-8214512392F4}</Project>
+      <Name>SoSmartTv.TheMovieDatabaseApi</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

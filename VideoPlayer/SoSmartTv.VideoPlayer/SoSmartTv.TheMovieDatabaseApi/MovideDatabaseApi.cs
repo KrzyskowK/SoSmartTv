@@ -7,7 +7,7 @@ using SoSmartTv.TheMovieDatabaseApi.Dtos;
 
 namespace SoSmartTv.TheMovieDatabaseApi
 {
-	public class MovideDatabaseApi : IMovieDatabasApi
+	public class MovideDatabaseApi : IMovieDatabaseApi
 	{
 		private readonly HttpClient _http;
 

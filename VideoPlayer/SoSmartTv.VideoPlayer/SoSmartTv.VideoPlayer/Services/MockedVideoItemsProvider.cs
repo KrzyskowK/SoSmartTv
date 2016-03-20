@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using SoSmartTv.TheMovieDatabaseApi;
 using SoSmartTv.VideoPlayer.ViewModels;
 
@@ -6,17 +8,48 @@ namespace SoSmartTv.VideoPlayer.Services
 {
 	public class MockedVideoItemsProvider : IVideoItemsProvider
 	{
-		public IList<IVideoItem> GetVideoItems()
+		private readonly IMovieDatabaseApi _movieDatabaseApi;
+
+		public MockedVideoItemsProvider(IMovieDatabaseApi movideDatabaseApi)
 		{
-			var path = "ms-appx:///TestData/{0}";
-			return new List<IVideoItem>()
-			{
-				new VideoItem(1,"Dark Knight Rises", "path", "Action", "Long Description...", string.Format(path,"dark knight rises.jpg")),
-				new VideoItem(2,"Dark Knight", "path", "Action", "Long Description...", string.Format(path,"dark knight.jpg")),
-				new VideoItem(3,"Avengers", "path", "Action", "Long Description...", string.Format(path,"avengers.jpg")),
-				new VideoItem(4,"Avengers Age Of Ultron", "path", "Action", "Long Description...", string.Format(path,"avengers age of ultron.jpg")),
-				new VideoItem(5,"Django", "path", "Action", "Long Description...", string.Format(path,"django.jpg"))
-			};
+			_movieDatabaseApi = movideDatabaseApi;
+		}
+
+		private async Task<IVideoItem> FetchVideoDetails(string title)
+		{
+			var searchResult = (await _movieDatabaseApi.SearchVideo(title)).Results.FirstOrDefault();
+			if (searchResult == null)
+				return null;
+			var details = await _movieDatabaseApi.GetVideoDetails(searchResult.Id);
+			if (details == null)
+				return null;
+			return new VideoItem(details.Id, details.Title, null, details.Genres.FirstOrDefault().ToString(), details.Overview, details.PosterPath);
+		}
+
+		private async Task PopulateVideoDetails(IEnumerable<string> titles)
+		{
+			_videoItems = new List<IVideoItem>();
+			var tasks = titles.Select(async x => await FetchVideoDetails(x)).ToList();
+			_videoItems = (await Task.WhenAll(tasks)).Where(x => x != null).ToList();
+		}
+
+		private IList<IVideoItem> _videoItems;
+
+		public async Task<IList<IVideoItem>> GetVideoItems()
+		{
+
+			if (_videoItems == null)
+				await PopulateVideoDetails(new List<string>
+				{
+					"Dark Knight Rises",
+					"Dark Knight",
+					"Avengers",
+					"Avengers Age Of Ultron",
+					"King Kong",
+					"Matrix",
+					"Deadpool",
+				});
+			return _videoItems;
 		}
 	}
 }
