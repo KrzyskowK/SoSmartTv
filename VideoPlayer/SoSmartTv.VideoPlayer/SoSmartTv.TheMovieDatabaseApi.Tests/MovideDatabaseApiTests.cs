@@ -6,7 +6,7 @@ namespace SoSmartTv.TheMovieDatabaseApi.Tests
 	[TestClass]
 	public class MovideDatabaseApiTests
 	{
-		private IMovieDatabasApi _sut;
+		private IMovieDatabaseApi _sut;
 
 		[TestInitialize]
 		public void Setup()

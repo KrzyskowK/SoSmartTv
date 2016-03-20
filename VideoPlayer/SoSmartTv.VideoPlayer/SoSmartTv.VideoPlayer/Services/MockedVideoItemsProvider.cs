@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SoSmartTv.TheMovieDatabaseApi;
 using SoSmartTv.VideoPlayer.ViewModels;
 
 namespace SoSmartTv.VideoPlayer.Services

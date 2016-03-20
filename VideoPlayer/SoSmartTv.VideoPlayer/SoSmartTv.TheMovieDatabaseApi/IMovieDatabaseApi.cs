@@ -3,7 +3,7 @@ using SoSmartTv.TheMovieDatabaseApi.Dtos;
 
 namespace SoSmartTv.TheMovieDatabaseApi
 {
-	public interface IMovieDatabasApi
+	public interface IMovieDatabaseApi
 	{
 		Task<VideoSearchResults> SearchVideo(string searchText);
 
