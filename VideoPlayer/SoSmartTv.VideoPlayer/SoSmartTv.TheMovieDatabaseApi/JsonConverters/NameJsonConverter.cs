@@ -1,6 +1,6 @@
-namespace SoSmartTv.TheMovieDatabaseApi.JsonItemConverters
+namespace SoSmartTv.TheMovieDatabaseApi.JsonConverters
 {
-	public class NameJsonItemConverter : AbstractJsonItemConverter<string>
+	public class NameJsonConverter : AbstractJsonConverter<string>
 	{
 		public override string PropertyPath => "name";
 		public override object ConvertResult(string value)

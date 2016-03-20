@@ -95,6 +95,8 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenreJsonItemConverterTests.cs" />
+    <Compile Include="ImageAbsolutePathJsonItemConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnderscoreToPascalCaseContractResolverTests.cs" />
     <Compile Include="UnitTestApp.xaml.cs">

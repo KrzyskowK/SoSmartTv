@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -18,12 +19,12 @@ namespace SoSmartTv.TheMovieDatabaseApi
 
 		public async Task<VideoSearchResults> SearchVideo(string searchText)
 		{
-			return await GetFromApi<VideoSearchResults>(string.Format("search/movie?query={0}", searchText));
+			return await GetFromApi<VideoSearchResults>(FormatWithApiKey(Urls.Requests.SearchMovie, searchText));
 		}
 
 		public async Task<VideoDetailsInfo> GetVideoDetails(int id)
 		{
-			return await GetFromApi<VideoDetailsInfo>(string.Format("movie/{0}", id));
+			return await GetFromApi<VideoDetailsInfo>(FormatWithApiKey(Urls.Requests.GetMovie, id));
 		}
 
 		private async Task<T> GetFromApi<T>(string query)
@@ -34,6 +35,13 @@ namespace SoSmartTv.TheMovieDatabaseApi
 			var result = JsonConvert.DeserializeObject<T>(jsonData, settings);
 
 			return result;
+		}
+
+		private static string FormatWithApiKey(string template, params object[] param)
+		{
+			if (template.Contains("?"))
+				return string.Format(template, param) + "&api_key=da63548086e399ffc910fbc08526df05";
+			return string.Format(template, param) + "?api_key=da63548086e399ffc910fbc08526df05";
 		}
 	}
 }

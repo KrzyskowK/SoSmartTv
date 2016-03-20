@@ -1,10 +1,11 @@
 using System;
+using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace SoSmartTv.TheMovieDatabaseApi.JsonItemConverters
+namespace SoSmartTv.TheMovieDatabaseApi.JsonConverters
 {
-	public abstract class AbstractJsonItemConverter<T> : JsonConverter
+	public abstract class AbstractJsonConverter<T> : JsonConverter
 	{
 		public abstract string PropertyPath { get; }
 
@@ -17,16 +18,14 @@ namespace SoSmartTv.TheMovieDatabaseApi.JsonItemConverters
 
 		public override bool CanConvert(Type objectType)
 		{
-			return true;
+			return objectType.IsInstanceOfType(typeof(T));
 		}
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
 			JObject jObject = JObject.Load(reader);
-			var value = jObject.SelectToken(PropertyPath).Value<T>();
+			var value = string.IsNullOrEmpty(PropertyPath) ? jObject.Value<T>() : jObject.SelectToken(PropertyPath).Value<T>();
 			return ConvertResult(value);
 		}
-
-
 	}
 }
