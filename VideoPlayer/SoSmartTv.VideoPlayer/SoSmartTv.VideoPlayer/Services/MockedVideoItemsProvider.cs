@@ -23,7 +23,7 @@ namespace SoSmartTv.VideoPlayer.Services
 			var details = await _movieDatabaseApi.GetVideoDetails(searchResult.Id);
 			if (details == null)
 				return null;
-			return new VideoItem(details.Id, details.Title, null, details.Genres.FirstOrDefault().ToString(), details.Overview, details.PosterPath);
+			return new VideoItem(details.Id, details.Title, null, details.Genres.FirstOrDefault().ToString(), details.Overview, details.PosterPath, details.BackdropPath);
 		}
 
 		private async Task PopulateVideoDetails(IEnumerable<string> titles)

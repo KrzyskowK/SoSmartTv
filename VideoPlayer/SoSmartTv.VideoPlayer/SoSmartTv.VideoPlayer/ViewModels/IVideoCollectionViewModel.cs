@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using Windows.UI.Xaml.Controls;
 
 namespace SoSmartTv.VideoPlayer.ViewModels
 {
@@ -7,5 +8,8 @@ namespace SoSmartTv.VideoPlayer.ViewModels
 		ObservableCollection<IVideoItem> Videos { get; }
 
 		int SelectedVideoId { get; set; }
+
+		void OnVideoClick(object sender, ItemClickEventArgs e);
+
 	}
 }

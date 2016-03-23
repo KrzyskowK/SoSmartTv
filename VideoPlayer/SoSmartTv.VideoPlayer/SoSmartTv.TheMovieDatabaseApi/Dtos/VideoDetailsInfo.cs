@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Windows.UI.Xaml;
 using Newtonsoft.Json;
 using SoSmartTv.TheMovieDatabaseApi.JsonConverters;
 

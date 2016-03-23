@@ -16,5 +16,6 @@ namespace SoSmartTv.VideoPlayer.Views
 		}
 
 		public IVideoCollectionViewModel ViewModel => DataContext as IVideoCollectionViewModel;
+
 	}
 }

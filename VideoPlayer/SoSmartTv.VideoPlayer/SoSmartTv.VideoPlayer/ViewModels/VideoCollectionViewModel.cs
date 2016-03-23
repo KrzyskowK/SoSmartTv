@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using Windows.UI.Xaml.Controls;
 using Prism.Windows.Mvvm;
+using Prism.Windows.Navigation;
 using SoSmartTv.VideoPlayer.Services;
 
 namespace SoSmartTv.VideoPlayer.ViewModels
@@ -7,9 +9,11 @@ namespace SoSmartTv.VideoPlayer.ViewModels
 	public class VideoCollectionViewModel : ViewModelBase, IVideoCollectionViewModel
 	{
 		private ObservableCollection<IVideoItem> _videos;
+		private INavigationService _navigationService;
 
-		public VideoCollectionViewModel(IVideoItemsProvider provider)
+		public VideoCollectionViewModel(IVideoItemsProvider provider, INavigationService navigationService)
 		{
+			_navigationService = navigationService;
 			PopulateVideos(provider);
 		}
 
@@ -31,5 +35,10 @@ namespace SoSmartTv.VideoPlayer.ViewModels
 
 		public int SelectedVideoId { get; set; }
 
+		public void OnVideoClick(object sender, ItemClickEventArgs e)
+		{
+			 //e.ClickedItem
+			_navigationService.Navigate("VideoDetails", e.ClickedItem);
+		}
 	}
 }

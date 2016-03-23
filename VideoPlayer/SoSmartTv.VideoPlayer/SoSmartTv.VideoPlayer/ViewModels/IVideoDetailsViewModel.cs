@@ -2,6 +2,6 @@
 {
 	public interface IVideoDetailsViewModel
 	{
-		VideoItem Details { get; } 
+		IVideoItem Details { get; } 
 	}
 }

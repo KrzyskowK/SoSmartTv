@@ -1,10 +1,4 @@
-﻿using System.Linq;
-using System.Text.RegularExpressions;
-using Windows.Devices.AllJoyn;
-using Windows.Media.SpeechRecognition;
-using Newtonsoft.Json.Linq;
-
-namespace SoSmartTv.TheMovieDatabaseApi
+﻿namespace SoSmartTv.TheMovieDatabaseApi
 {
 	public static class Urls
 	{
