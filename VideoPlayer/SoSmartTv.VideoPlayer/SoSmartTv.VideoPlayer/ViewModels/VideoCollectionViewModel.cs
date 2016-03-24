@@ -9,7 +9,7 @@ namespace SoSmartTv.VideoPlayer.ViewModels
 	public class VideoCollectionViewModel : ViewModelBase, IVideoCollectionViewModel
 	{
 		private ObservableCollection<IVideoItem> _videos;
-		private INavigationService _navigationService;
+		private readonly INavigationService _navigationService;
 
 		public VideoCollectionViewModel(IVideoItemsProvider provider, INavigationService navigationService)
 		{
@@ -37,8 +37,7 @@ namespace SoSmartTv.VideoPlayer.ViewModels
 
 		public void OnVideoClick(object sender, ItemClickEventArgs e)
 		{
-			 //e.ClickedItem
-			_navigationService.Navigate("VideoDetails", e.ClickedItem);
+			_navigationService.Navigate("VideoDetails", (e.ClickedItem as IVideoItem).Id);
 		}
 	}
 }

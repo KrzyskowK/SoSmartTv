@@ -109,8 +109,10 @@
   <ItemGroup>
     <Compile Include="JsonConverters\AbstractJsonConverter.cs" />
     <Compile Include="JsonConverters\GenresJsonConverter.cs" />
+    <Compile Include="JsonConverters\Image1920AbsolutePathJsonConverter.cs" />
     <Compile Include="JsonConverters\NameJsonConverter.cs" />
     <Compile Include="JsonConverters\ImageAbsolutePathJsonConverter.cs" />
+    <Compile Include="JsonConverters\Image500AbsolutePathJsonConverter.cs" />
     <Compile Include="Urls.cs" />
     <Compile Include="Dtos\Genre.cs" />
     <Compile Include="IMovieDatabaseApi.cs" />

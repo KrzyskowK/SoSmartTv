@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using SoSmartTv.TheMovieDatabaseApi.JsonConverters;
 
 namespace SoSmartTv.TheMovieDatabaseApi.Dtos
 {
@@ -12,6 +14,7 @@ namespace SoSmartTv.TheMovieDatabaseApi.Dtos
 		public string OriginalTitle { get; set; }
 		public string Overview { get; set; }
 		public string ReleaseDate { get; set; }
+		[JsonConverter(typeof(Image500AbsolutePathJsonConverter))]
 		public string PosterPath { get; set; }
 		public double Popularity { get; set; }
 		public string Title { get; set; }

@@ -8,7 +8,11 @@
 
 		public static class Images
 		{
-			public static string Base { get; } = "http://image.tmdb.org/t/p/w500{0}";
+			public static string Width500 { get; } = "http://image.tmdb.org/t/p/w500{0}";
+
+			public static string Width1920 { get; } = "http://image.tmdb.org/t/p/w1920{0}";
+
+			public static string WidthOriginal { get; } = "http://image.tmdb.org/t/p/original{0}";
 		}
 
 		public static class Requests

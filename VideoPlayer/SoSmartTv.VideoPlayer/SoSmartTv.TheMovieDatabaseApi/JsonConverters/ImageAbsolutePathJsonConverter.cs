@@ -5,9 +5,11 @@ namespace SoSmartTv.TheMovieDatabaseApi.JsonConverters
 {
 	public class ImageAbsolutePathJsonConverter : JsonConverter
 	{
+		protected virtual string BaseImageUrl { get; } = Urls.Images.WidthOriginal;
+
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
-			throw new System.NotImplementedException();
+			throw new NotSupportedException("This converter supports only read mode.");
 		}
 
 		public override bool CanConvert(Type objectType)
@@ -17,7 +19,9 @@ namespace SoSmartTv.TheMovieDatabaseApi.JsonConverters
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
-			return string.Format(Urls.Images.Base, reader.Value);
+			if (string.IsNullOrEmpty(BaseImageUrl))
+				throw new ArgumentException("baseImageUrl cannot be null or empty.");
+			return string.Format(BaseImageUrl, reader.Value);
 		}
 	}
 }

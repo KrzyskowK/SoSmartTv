@@ -7,7 +7,7 @@ namespace SoSmartTv.TheMovieDatabaseApi.Dtos
 	public class VideoDetailsInfo
 	{
 		public bool Adult { get; set; }
-		[JsonConverter(typeof(ImageAbsolutePathJsonConverter))]
+		[JsonConverter(typeof(Image1920AbsolutePathJsonConverter))]
 		public string BackdropPath { get; set; }
 		public object BelongsToCollection { get; set; }
 		public int Budget { get; set; }
@@ -20,7 +20,7 @@ namespace SoSmartTv.TheMovieDatabaseApi.Dtos
 		public string OriginalTitle { get; set; }
 		public string Overview { get; set; }
 		public double Popularity { get; set; }
-		[JsonConverter(typeof(ImageAbsolutePathJsonConverter))]
+		[JsonConverter(typeof(Image500AbsolutePathJsonConverter))]
 		public string PosterPath { get; set; }
 		[JsonProperty(ItemConverterType = typeof(NameJsonConverter))]
 		public List<string> ProductionCompanies { get; set; } //class

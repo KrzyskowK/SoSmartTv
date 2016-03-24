@@ -13,14 +13,18 @@
 
     <Grid Background="Black">
         <Image VerticalAlignment="Center" HorizontalAlignment="Stretch" Opacity="0.2"
-               Source="{x:Bind ViewModel.Details.BackdropPath}" />
-        <Grid Margin="50">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" Source="{x:Bind ViewModel.Details.PosterSource}"></Image>
-            <TextBlock Grid.Column="1" TextWrapping="WrapWholeWords" Foreground="White" Text="{x:Bind ViewModel.Details.Description}"></TextBlock>
-        </Grid>
+               Source="{Binding Details.BackdropPath}" />
+        <StackPanel>
+            <TextBlock Margin="50,30" Foreground="White" Text="{Binding Details.Title}" FontSize="40" ></TextBlock>
+            <Grid Margin="50" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="{Binding Details.PosterSource}" VerticalAlignment="Top"></Image>
+                <TextBlock Grid.Column="1" Padding="20" TextWrapping="WrapWholeWords" Foreground="White" Text="{Binding Details.Description}"></TextBlock>
+            </Grid>
+        </StackPanel>
+        
     </Grid>
 </Page>

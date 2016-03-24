@@ -31,7 +31,7 @@ namespace SoSmartTv.TheMovieDatabaseApi.Tests
 		public void Deserialization_with_converter_should_return_correct_absolute_path()
 		{
 			SutCorrect result = JsonConvert.DeserializeObject<SutCorrect>(_json);
-			Assert.AreEqual(string.Format(Urls.Images.Base, "/simplePath.jpg"), result.Output);
+			Assert.AreEqual(string.Format(Urls.Images.WidthOriginal, "/simplePath.jpg"), result.Output);
 		}
 	}
 }

@@ -28,7 +28,7 @@ namespace SoSmartTv.TheMovieDatabaseApi.Tests
 			reposne.Wait();
 			Assert.AreEqual("Batman Begins", reposne.Result.Title);
 			Assert.AreEqual("2005-06-14", reposne.Result.ReleaseDate);
-			Assert.IsTrue(reposne.Result.PosterPath.Contains(Urls.Images.Base.Replace("{0}","")));
+			Assert.IsTrue(reposne.Result.PosterPath.Contains(Urls.Images.Width500.Replace("{0}","")));
 		}
 	}
 }
