@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Omu.ValueInjecter;
 using SoSmartTv.TheMovieDatabaseApi.Dtos;
 
 namespace SoSmartTv.TheMovieDatabaseApi
@@ -24,6 +25,16 @@ namespace SoSmartTv.TheMovieDatabaseApi
 		public async Task<VideoDetailsInfo> GetVideoDetails(int id)
 		{
 			return await GetFromApi<VideoDetailsInfo>(FormatWithApiKey(Urls.Requests.GetMovie, id));
+		}
+
+		public async Task<VideoDetailsInfoWithCast> GetVideoDetailsWithCredits(int id)
+		{
+			var creditsTask = GetFromApi<VideoDetailsInfoWithCast>(FormatWithApiKey(Urls.Requests.GetMovieCredits, id));
+			var detailsTask = GetFromApi<VideoDetailsInfo>(FormatWithApiKey(Urls.Requests.GetMovie, id));
+			await Task.WhenAll(creditsTask, detailsTask);
+			var credits = creditsTask.Result;
+			var details = detailsTask.Result;
+			return (VideoDetailsInfoWithCast)credits.InjectFrom(details);
 		}
 
 		private async Task<T> GetFromApi<T>(string query)

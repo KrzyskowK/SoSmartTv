@@ -107,6 +107,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dtos\Cast.cs" />
+    <Compile Include="Dtos\Crew.cs" />
+    <Compile Include="Dtos\VideoDetailsInfoWithCast.cs" />
     <Compile Include="JsonConverters\AbstractJsonConverter.cs" />
     <Compile Include="JsonConverters\GenresJsonConverter.cs" />
     <Compile Include="JsonConverters\Image1920AbsolutePathJsonConverter.cs" />

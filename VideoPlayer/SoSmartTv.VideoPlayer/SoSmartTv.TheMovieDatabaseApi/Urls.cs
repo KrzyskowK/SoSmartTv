@@ -20,6 +20,8 @@
 			public static string SearchMovie { get; } = "search/movie?query={0}";
 
 			public static string GetMovie { get; } = "movie/{0}";
+
+			public static string GetMovieCredits { get; } = "movie/{0}/credits";
 		}
 	}
 }

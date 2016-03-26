@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using SoSmartTv.TheMovieDatabaseApi.Dtos;
 
@@ -8,5 +9,7 @@ namespace SoSmartTv.TheMovieDatabaseApi
 		Task<VideoSearchResults> SearchVideo(string searchText);
 
 		Task<VideoDetailsInfo> GetVideoDetails(int id);
+
+		Task<VideoDetailsInfoWithCast> GetVideoDetailsWithCredits(int id);
 	}
 }
