@@ -22,7 +22,7 @@
                         <StackPanel Orientation="Vertical">
                             <Image Width="200" Height="266"
                                    VerticalAlignment="Center" HorizontalAlignment="Center"
-                                   Source="{x:Bind PosterSource}"
+                                   Source="{x:Bind PosterPath}"
                                    Margin="4" />
                             <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{x:Bind Title}" Foreground="DarkGray" />
                             

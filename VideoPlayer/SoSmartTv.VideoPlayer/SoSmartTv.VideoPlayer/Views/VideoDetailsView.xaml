@@ -6,25 +6,29 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mvvm="using:Prism.Windows.Mvvm"
+    xmlns:dataTemplates="using:SoSmartTv.VideoPlayer.Views.DataTemplates"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
+    <Page.Resources>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="FontWeight" Value="Normal"></Setter>
+        </Style>
+    </Page.Resources>
+
     <Grid Background="Black">
-        <Image VerticalAlignment="Center" HorizontalAlignment="Stretch" Opacity="0.2"
-               Source="{Binding Details.BackdropPath}" />
+        <Image VerticalAlignment="Center" HorizontalAlignment="Stretch" Opacity="0.2" Source="{Binding Details.BackdropPath}" />
         <StackPanel>
-            <TextBlock Margin="50,30" Foreground="White" Text="{Binding Details.Title}" FontSize="40" ></TextBlock>
-            <Grid Margin="50" VerticalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="300"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="{Binding Details.PosterSource}" VerticalAlignment="Top"></Image>
-                <TextBlock Grid.Column="1" Padding="20" TextWrapping="WrapWholeWords" Foreground="White" Text="{Binding Details.Description}"></TextBlock>
-            </Grid>
+            <Hub Margin="50,50,50,50" Header="{Binding Details.Title}" Foreground="White">
+                <HubSection Header="Info" Foreground="White">
+                    <DataTemplate>
+                        <dataTemplates:VideoDetailsInfoTemplate/>
+                    </DataTemplate>
+                </HubSection>
+            </Hub>
         </StackPanel>
-        
     </Grid>
 </Page>

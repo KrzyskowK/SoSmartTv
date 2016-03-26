@@ -8,6 +8,6 @@
 		string BackdropPath { get; }
 		string Genre { get; }
 		string Description { get; }
-		string PosterSource { get; }
+		string PosterPath { get; }
 	}
 }

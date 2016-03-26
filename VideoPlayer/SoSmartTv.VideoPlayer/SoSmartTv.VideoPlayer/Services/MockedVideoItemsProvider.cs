@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Omu.ValueInjecter;
 using SoSmartTv.TheMovieDatabaseApi;
 using SoSmartTv.VideoPlayer.ViewModels;
 
@@ -20,7 +21,8 @@ namespace SoSmartTv.VideoPlayer.Services
 			var searchResult = (await _movieDatabaseApi.SearchVideo(title)).Results.FirstOrDefault();
 			if (searchResult == null)
 				return null;
-			return new VideoItem(searchResult.Id, searchResult.Title, null, searchResult.GenreIds.FirstOrDefault().ToString(), searchResult.Overview, searchResult.PosterPath, searchResult.BackdropPath);
+			var result = Mapper.Map<VideoItem>(searchResult);
+			return result;
 		}
 
 		private async Task PopulateVideoDetails(IEnumerable<string> titles)
@@ -49,12 +51,14 @@ namespace SoSmartTv.VideoPlayer.Services
 			return _videoItems;
 		}
 
-		public async Task<IVideoItemDetails> GetVideoItem(int id)
+		public async Task<IVideoDetailsItem> GetVideoItem(int id)
 		{
 			var details = await _movieDatabaseApi.GetVideoDetails(id);
 			if (details == null)
 				return null;
-			return new VideoItemDetails(details.Id, details.Title, null, details.Genres.FirstOrDefault().ToString(), details.Overview, details.PosterPath, details.BackdropPath);
+			var result = Mapper.Map<VideoDetailsItem>(details);
+			return result;
+			//return new VideoItemDetails(details.Id, details.Title, null, details.Genres.FirstOrDefault().ToString(), details.Overview, details.PosterPath, details.BackdropPath);
 		}
 	}
 }

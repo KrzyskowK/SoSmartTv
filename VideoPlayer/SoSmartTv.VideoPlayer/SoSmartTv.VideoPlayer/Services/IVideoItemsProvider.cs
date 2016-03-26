@@ -8,17 +8,6 @@ namespace SoSmartTv.VideoPlayer.Services
 	{
 		Task<IList<IVideoItem>> GetVideoItems();
 
-		Task<IVideoItemDetails> GetVideoItem(int id);
-	}
-
-	public interface IVideoItemDetails : IVideoItem
-	{
-	}
-
-	public class VideoItemDetails : VideoItem, IVideoItemDetails
-	{
-		public VideoItemDetails(int id, string title, string sourcePath, string genre, string description, string posterSource, string backdropPath) : base(id, title, sourcePath, genre, description, posterSource, backdropPath)
-		{
-		}
+		Task<IVideoDetailsItem> GetVideoItem(int id);
 	}
 }
