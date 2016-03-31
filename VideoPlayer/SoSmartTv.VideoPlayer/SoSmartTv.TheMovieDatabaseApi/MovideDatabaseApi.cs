@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Omu.ValueInjecter;
 using SoSmartTv.TheMovieDatabaseApi.Dtos;
+using SoSmartTv.TheMovieDatabaseApi.JsonResolvers;
 
 namespace SoSmartTv.TheMovieDatabaseApi
 {

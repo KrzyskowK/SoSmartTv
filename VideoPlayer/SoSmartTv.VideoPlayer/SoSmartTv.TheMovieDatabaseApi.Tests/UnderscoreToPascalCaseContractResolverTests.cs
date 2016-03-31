@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using SoSmartTv.TheMovieDatabaseApi.JsonResolvers;
 
 namespace SoSmartTv.TheMovieDatabaseApi.Tests
 {

@@ -10,4 +10,9 @@ namespace SoSmartTv.VideoPlayer.ViewModels
 		public double VoteAverage { get; set; }
 		public int VoteCount { get; set; }
 	}
+
+	public class VideoCreditsItem
+	{
+		
+	}
 }

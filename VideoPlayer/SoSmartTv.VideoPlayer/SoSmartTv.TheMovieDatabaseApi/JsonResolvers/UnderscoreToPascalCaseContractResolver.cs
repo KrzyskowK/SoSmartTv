@@ -1,7 +1,7 @@
 using System.Text;
 using Newtonsoft.Json.Serialization;
 
-namespace SoSmartTv.TheMovieDatabaseApi
+namespace SoSmartTv.TheMovieDatabaseApi.JsonResolvers
 {
 	public class UnderscoreToPascalCaseContractResolver : DefaultContractResolver
 	{

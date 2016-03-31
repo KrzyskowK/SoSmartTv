@@ -17,13 +17,16 @@
             <Setter Property="Foreground" Value="White"></Setter>
             <Setter Property="FontWeight" Value="Normal"></Setter>
         </Style>
+        <DataTemplate x:Key="HeaderTemplate">
+            <TextBlock Foreground="White" Text="{Binding }"></TextBlock>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid Background="Black">
         <Image VerticalAlignment="Center" HorizontalAlignment="Stretch" Opacity="0.2" Source="{Binding Details.BackdropPath}" />
         <StackPanel>
             <Hub Margin="50,50,50,50" Header="{Binding Details.Title}" Foreground="White">
-                <HubSection Header="Info" Foreground="White">
+                <HubSection Header="Info" HeaderTemplate="{StaticResource HeaderTemplate}">
                     <DataTemplate>
                         <dataTemplates:VideoDetailsInfoTemplate/>
                     </DataTemplate>
@@ -31,4 +34,5 @@
             </Hub>
         </StackPanel>
     </Grid>
+    
 </Page>

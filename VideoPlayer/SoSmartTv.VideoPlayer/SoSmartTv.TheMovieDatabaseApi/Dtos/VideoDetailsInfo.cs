@@ -22,7 +22,7 @@ namespace SoSmartTv.TheMovieDatabaseApi.Dtos
 		public double Popularity { get; set; }
 		[JsonConverter(typeof(Image500AbsolutePathJsonConverter))]
 		public string PosterPath { get; set; }
-		[JsonProperty(ItemConverterType = typeof(NameJsonConverter))]
+		[JsonProperty(PropertyName = "name")]
 		public List<string> ProductionCompanies { get; set; } //class
 		[JsonProperty(ItemConverterType = typeof(NameJsonConverter))]
 		public List<string> ProductionCountries { get; set; } //class

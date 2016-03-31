@@ -11,9 +11,11 @@ namespace SoSmartTv.TheMovieDatabaseApi.JsonConverters
 
 		public abstract object ConvertResult(T value);
 
+		public override bool CanWrite { get; } = false;
+
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException("This converter supports only read mode.");
 		}
 
 		public override bool CanConvert(Type objectType)
@@ -23,8 +25,11 @@ namespace SoSmartTv.TheMovieDatabaseApi.JsonConverters
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
-			JObject jObject = JObject.Load(reader);
-			var value = string.IsNullOrEmpty(PropertyPath) ? jObject.Value<T>() : jObject.SelectToken(PropertyPath).Value<T>();
+			if(string.IsNullOrEmpty(PropertyPath))
+				throw new ArgumentException("PropertyPath cannot be null or empty");
+
+			var jObject = JObject.Load(reader);
+			var value =  jObject.SelectToken(PropertyPath).Value<T>();
 			return ConvertResult(value);
 		}
 	}

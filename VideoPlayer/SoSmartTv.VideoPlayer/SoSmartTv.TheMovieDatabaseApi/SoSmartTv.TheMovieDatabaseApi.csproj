@@ -121,7 +121,7 @@
     <Compile Include="IMovieDatabaseApi.cs" />
     <Compile Include="MovideDatabaseApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnderscoreToPascalCaseContractResolver.cs" />
+    <Compile Include="JsonResolvers\UnderscoreToPascalCaseContractResolver.cs" />
     <Compile Include="Dtos\VideoDetailsInfo.cs" />
     <Compile Include="Dtos\VideoInfo.cs" />
     <Compile Include="Dtos\VideoSearchResults.cs" />
