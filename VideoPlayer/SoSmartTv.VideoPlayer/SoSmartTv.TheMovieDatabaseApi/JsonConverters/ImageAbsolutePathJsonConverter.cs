@@ -7,6 +7,8 @@ namespace SoSmartTv.TheMovieDatabaseApi.JsonConverters
 	{
 		protected virtual string BaseImageUrl { get; } = Urls.Images.WidthOriginal;
 
+		public override bool CanWrite { get; } = false;
+
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
 			throw new NotSupportedException("This converter supports only read mode.");
@@ -14,7 +16,7 @@ namespace SoSmartTv.TheMovieDatabaseApi.JsonConverters
 
 		public override bool CanConvert(Type objectType)
 		{
-			return objectType == typeof(string);
+			return false;
 		}
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

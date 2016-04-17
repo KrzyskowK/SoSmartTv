@@ -188,6 +188,10 @@
       <Project>{B147822F-2B99-41F9-917B-8214512392F4}</Project>
       <Name>SoSmartTv.TheMovieDatabaseApi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SoSmartTv.VideoFilesProvider\SoSmartTv.VideoFilesProvider.csproj">
+      <Project>{682412CE-A87E-4889-90B7-1742B0D56D70}</Project>
+      <Name>SoSmartTv.VideoFilesProvider</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

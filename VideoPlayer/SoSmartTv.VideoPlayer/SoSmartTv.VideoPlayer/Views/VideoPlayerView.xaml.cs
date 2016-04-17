@@ -1,5 +1,8 @@
-﻿using Windows.UI.Xaml;
+﻿using System.IO;
+using Windows.Storage;
+using Windows.UI.Xaml;
 using Prism.Windows.Mvvm;
+using SoSmartTv.VideoFilesProvider;
 using SoSmartTv.VideoPlayer.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -13,7 +16,7 @@ namespace SoSmartTv.VideoPlayer.Views
 			this.InitializeComponent();
 			this.DataContextChanged += VideoPlayerPage_DataContextChanged;
 		}
-
+		
 		private void VideoPlayerPage_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
 			//throw new System.NotImplementedException();

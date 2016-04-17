@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Omu.ValueInjecter;
 using SoSmartTv.TheMovieDatabaseApi;
+using SoSmartTv.VideoFilesProvider;
 using SoSmartTv.VideoPlayer.ViewModels;
 
 namespace SoSmartTv.VideoPlayer.Services
@@ -10,10 +11,12 @@ namespace SoSmartTv.VideoPlayer.Services
 	public class MockedVideoItemsProvider : IVideoItemsProvider
 	{
 		private readonly IMovieDatabaseApi _movieDatabaseApi;
+		private readonly IVideoFilesProvider _videoFilesProvider;
 
-		public MockedVideoItemsProvider(IMovieDatabaseApi movideDatabaseApi)
+		public MockedVideoItemsProvider(IMovieDatabaseApi movideDatabaseApi, IVideoFilesProvider videoFilesProvider)
 		{
 			_movieDatabaseApi = movideDatabaseApi;
+			_videoFilesProvider = videoFilesProvider;
 		}
 
 		private async Task<IVideoItem> FetchVideoDetails(string title)
@@ -36,18 +39,19 @@ namespace SoSmartTv.VideoPlayer.Services
 
 		public async Task<IList<IVideoItem>> GetVideoItems()
 		{
-
+			var videoFiles = await _videoFilesProvider.GetAllVideoFiles();
 			if (_videoItems == null)
-				await PopulateVideoDetails(new List<string>
-				{
-					"Dark Knight Rises",
-					"Dark Knight",
-					"Avengers",
-					"Avengers Age Of Ultron",
-					"King Kong",
-					"Matrix",
-					"Deadpool",
-				});
+				//await PopulateVideoDetails(new List<string>
+				//{
+				//	"Dark Knight Rises",
+				//	"Dark Knight",
+				//	"Avengers",
+				//	"Avengers Age Of Ultron",
+				//	"King Kong",
+				//	"Matrix",
+				//	"Deadpool",
+				//});
+				await PopulateVideoDetails(videoFiles.Select(x => x.Title));
 			return _videoItems;
 		}
 
