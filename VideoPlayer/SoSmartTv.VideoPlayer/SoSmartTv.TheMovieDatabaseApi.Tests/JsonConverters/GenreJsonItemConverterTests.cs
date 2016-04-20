@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Newtonsoft.Json;
 using SoSmartTv.TheMovieDatabaseApi.Dtos;
 using SoSmartTv.TheMovieDatabaseApi.JsonConverters;
+using Xunit;
 
 namespace SoSmartTv.TheMovieDatabaseApi.Tests
 {
-	[TestClass]
 	public class GenreJsonItemConverterTests
 	{
 		private class SutIncorrect
@@ -22,21 +21,21 @@ namespace SoSmartTv.TheMovieDatabaseApi.Tests
 
 		private string _json = "{ 'output': [{ 'name': 'FakeName', 'id': 24 },{ 'name': 'FakeName', 'id': 23 }]}";
 
-		[TestMethod]
+		[Fact]
 		public void Deserialization_without_converter_should_throw_exception()
 		{
-			Assert.ThrowsException<JsonSerializationException>(() =>
+			Assert.ThrowsAny<JsonSerializationException>(() =>
 			{
 				SutIncorrect result = JsonConvert.DeserializeObject<SutIncorrect>(_json);
 			});
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Deserialization_with_converter_should_return_correct_id_result()
 		{
 			SutCorrect result = JsonConvert.DeserializeObject<SutCorrect>(_json);
-			Assert.AreEqual((Genre)24, result.Output[0]);
-			Assert.AreEqual((Genre)23, result.Output[1]);
+			Assert.Equal((Genre)24, result.Output[0]);
+			Assert.Equal((Genre)23, result.Output[1]);
 		}
 	}
 }

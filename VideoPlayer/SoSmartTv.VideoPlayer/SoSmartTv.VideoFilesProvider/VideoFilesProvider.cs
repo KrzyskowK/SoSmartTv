@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using SoSmartTv.VideoFilesProvider.TorrentFileNameParser;
 
 namespace SoSmartTv.VideoFilesProvider
 {
@@ -52,8 +53,14 @@ namespace SoSmartTv.VideoFilesProvider
 			foreach (var file in files)
 			{
 				var property = await file.Properties.GetVideoPropertiesAsync();
-				if(!string.IsNullOrEmpty(property.Title))
-				videoProperties.Add(property);
+				if (!string.IsNullOrEmpty(property.Title))
+					videoProperties.Add(property);
+				else
+				{
+					var torrentInfo = TorrenVideoFileParser.Parse(file.Name);
+					property.Title = torrentInfo.Title;
+					videoProperties.Add(property);
+				}
 			}
 			return videoProperties;
 		}

@@ -1,34 +1,32 @@
-﻿using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using SoSmartTv.TheMovieDatabaseApi.JsonResolvers;
+﻿using SoSmartTv.TheMovieDatabaseApi.JsonResolvers;
+using Xunit;
 
 namespace SoSmartTv.TheMovieDatabaseApi.Tests
 {
-	[TestClass]
 	public class UnderscoreToPascalCaseContractResolverTests
 	{
 		private UnderscoreToPascalCaseContractResolver _sut;
 
-		[TestInitialize]
-		public void Setup()
+		public UnderscoreToPascalCaseContractResolverTests()
 		{
 			_sut = new UnderscoreToPascalCaseContractResolver();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Dummy()
 		{
-			Assert.AreEqual(1, 1);
+			Assert.Equal(1, 1);
 		}
 		
-		[DataTestMethod]
-		[DataRow("Page", "page")]
-		[DataRow("PageNumber", "page_number")]
-		[DataRow("PageNumberTwo", "page_number_two")]
-		[DataRow("page", "page")]
+		[Theory]
+		[InlineData("Page", "page")]
+		[InlineData("PageNumber", "page_number")]
+		[InlineData("PageNumberTwo", "page_number_two")]
+		[InlineData("page", "page")]
 		public void Should_return_correct_property_names(string input, string expectedOutput)
 		{
 			var output = _sut.GetResolvedPropertyName(input);
-			Assert.AreEqual(expectedOutput, output);
+			Assert.Equal(expectedOutput, output);
 		}
 	}
 }
