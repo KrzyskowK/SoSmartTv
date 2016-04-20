@@ -1,10 +1,9 @@
-﻿using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using SoSmartTv.TheMovieDatabaseApi.JsonConverters;
+using Xunit;
 
 namespace SoSmartTv.TheMovieDatabaseApi.Tests
 {
-	[TestClass]
 	public class ImageAbsolutePathJsonItemConverterTests
 	{
 		private class SutIncorrect
@@ -20,18 +19,18 @@ namespace SoSmartTv.TheMovieDatabaseApi.Tests
 
 		private string _json = "{ 'output': '/simplePath.jpg'}";
 
-		[TestMethod]
+		[Fact]
 		public void Deserialization_without_converter_should_return_same_value()
 		{
 			SutIncorrect result = JsonConvert.DeserializeObject<SutIncorrect>(_json);
-			Assert.AreEqual("/simplePath.jpg", result.Output);
+			Assert.Equal("/simplePath.jpg", result.Output);
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Deserialization_with_converter_should_return_correct_absolute_path()
 		{
 			SutCorrect result = JsonConvert.DeserializeObject<SutCorrect>(_json);
-			Assert.AreEqual(string.Format(Urls.Images.WidthOriginal, "/simplePath.jpg"), result.Output);
+			Assert.Equal(string.Format(Urls.Images.WidthOriginal, "/simplePath.jpg"), result.Output);
 		}
 	}
 }

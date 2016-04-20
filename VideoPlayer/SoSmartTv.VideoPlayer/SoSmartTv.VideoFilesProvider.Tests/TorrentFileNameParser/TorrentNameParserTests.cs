@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using SoSmartTv.VideoFilesProvider.TorrentFileNameParser;
 using Xunit;
 using Xunit.Extensions;
-using Assert = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.Assert;
 
 namespace SoSmartTv.VideoFilesProvider.Tests.TorrentFileNameParser
 {
@@ -18,7 +16,7 @@ namespace SoSmartTv.VideoFilesProvider.Tests.TorrentFileNameParser
 		{
 			var dto = new TorrentVideoFileInfo();
 			TorrenVideoFileParser.TryAssignValue(dto, x => x.Audio, "audio_matched_value");
-			Assert.AreEqual(dto.Audio, "audio_matched_value");
+			Assert.Equal(dto.Audio, "audio_matched_value");
 		}
 
 		[Fact]
@@ -26,7 +24,7 @@ namespace SoSmartTv.VideoFilesProvider.Tests.TorrentFileNameParser
 		{
 			var dto = new TorrentVideoFileInfo();
 			TorrenVideoFileParser.TryAssignValue(dto, x => x.Extended, "true");
-			Assert.AreEqual(dto.Extended, true);
+			Assert.Equal(dto.Extended, true);
 		}
 
 		[Fact]
@@ -34,7 +32,7 @@ namespace SoSmartTv.VideoFilesProvider.Tests.TorrentFileNameParser
 		{
 			var dto = new TorrentVideoFileInfo();
 			TorrenVideoFileParser.TryAssignValue(dto, x => x.Year, "1988");
-			Assert.AreEqual(dto.Year, 1988);
+			Assert.Equal(dto.Year, 1988);
 		}
 
 		public static IEnumerable<object[]> SplitCountData()
@@ -149,39 +147,39 @@ namespace SoSmartTv.VideoFilesProvider.Tests.TorrentFileNameParser
 		{
 			var dto = TorrenVideoFileParser.Parse(fileName);
 
-			Assert.AreEqual(dto.Season, expectedDto.Season);
-			Assert.AreEqual(dto.Episode, expectedDto.Episode);
-			Assert.AreEqual(dto.Year, expectedDto.Year);
-			Assert.AreEqual(dto.Resolution, expectedDto.Resolution);
-			Assert.AreEqual(dto.Quality, expectedDto.Quality);
-			Assert.AreEqual(dto.Codec, expectedDto.Codec);
-			Assert.AreEqual(dto.Audio, expectedDto.Audio);
-			Assert.AreEqual(dto.Group, expectedDto.Group);
-			Assert.AreEqual(dto.Region, expectedDto.Region);
-			Assert.AreEqual(dto.Extended, expectedDto.Extended);
-			Assert.AreEqual(dto.Hardcoded, expectedDto.Hardcoded);
-			Assert.AreEqual(dto.Proper, expectedDto.Proper);
-			Assert.AreEqual(dto.Repack, expectedDto.Repack);
-			Assert.AreEqual(dto.Container, expectedDto.Container);
-			Assert.AreEqual(dto.Widescreen, expectedDto.Widescreen);
-			Assert.AreEqual(dto.Website, expectedDto.Website);
-			Assert.AreEqual(dto.Language, expectedDto.Language);
-			Assert.AreEqual(dto.Garbage, expectedDto.Garbage);
-			Assert.AreEqual(dto.Title, expectedDto.Title);
+			Assert.Equal(dto.Season, expectedDto.Season);
+			Assert.Equal(dto.Episode, expectedDto.Episode);
+			Assert.Equal(dto.Year, expectedDto.Year);
+			Assert.Equal(dto.Resolution, expectedDto.Resolution);
+			Assert.Equal(dto.Quality, expectedDto.Quality);
+			Assert.Equal(dto.Codec, expectedDto.Codec);
+			Assert.Equal(dto.Audio, expectedDto.Audio);
+			Assert.Equal(dto.Group, expectedDto.Group);
+			Assert.Equal(dto.Region, expectedDto.Region);
+			Assert.Equal(dto.Extended, expectedDto.Extended);
+			Assert.Equal(dto.Hardcoded, expectedDto.Hardcoded);
+			Assert.Equal(dto.Proper, expectedDto.Proper);
+			Assert.Equal(dto.Repack, expectedDto.Repack);
+			Assert.Equal(dto.Container, expectedDto.Container);
+			Assert.Equal(dto.Widescreen, expectedDto.Widescreen);
+			Assert.Equal(dto.Website, expectedDto.Website);
+			Assert.Equal(dto.Language, expectedDto.Language);
+			Assert.Equal(dto.Garbage, expectedDto.Garbage);
+			Assert.Equal(dto.Title, expectedDto.Title);
 		}
 
 		[Fact]
 		public void Parse_should_return_correct_dto2()
 		{
 			var dto = TorrenVideoFileParser.Parse("True.Detective.S02E01.PROPER.720p.HDTV.x264 - KILLERS");
-			Assert.AreEqual(dto.Season, 2);
-			Assert.AreEqual(dto.Episode, 1);
-			Assert.AreEqual(dto.Quality, "HDTV");
-			Assert.AreEqual(dto.Resolution, "720p");
-			Assert.AreEqual(dto.Codec, "x264");
-			Assert.AreEqual(dto.Title, "True Detective");
-			Assert.AreEqual(dto.Group, "KILLERS");
-			Assert.AreEqual(dto.Proper, true);
+			Assert.Equal(dto.Season, 2);
+			Assert.Equal(dto.Episode, 1);
+			Assert.Equal(dto.Quality, "HDTV");
+			Assert.Equal(dto.Resolution, "720p");
+			Assert.Equal(dto.Codec, "x264");
+			Assert.Equal(dto.Title, "True Detective");
+			Assert.Equal(dto.Group, "KILLERS");
+			Assert.Equal(dto.Proper, true);
 		}
 	}
 }
