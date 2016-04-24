@@ -2,24 +2,24 @@ namespace SoSmartTv.VideoFilesProvider.TorrentFileNameParser
 {
 	public class TorrentVideoFileInfo
 	{
-		public int Season;
-		public int Episode;
-		public int Year;
-		public string Resolution;
-		public string Quality;
-		public string Codec;
-		public string Audio;
-		public string Group;
-		public string Region;
-		public bool Extended;
-		public bool Hardcoded;
-		public bool Proper;
-		public bool Repack;
-		public string Container;
-		public bool Widescreen;
-		public string Website;
-		public string Language;
-		public string Garbage;
-		public string Title;
+		public int Season { get; set; }
+		public int Episode { get; set; }
+		public int Year { get; set; }
+		public string Resolution { get; set; }
+		public string Quality { get; set; }
+		public string Codec { get; set; }
+		public string Audio { get; set; }
+		public string Group { get; set; }
+		public string Region { get; set; }
+		public bool Extended { get; set; }
+		public bool Hardcoded { get; set; }
+		public bool Proper { get; set; }
+		public bool Repack { get; set; }
+		public string Container { get; set; }
+		public bool Widescreen { get; set; }
+		public string Website { get; set; }
+		public string Language { get; set; }
+		public string Garbage { get; set; }
+		public string Title { get; set; }
 	}
 }

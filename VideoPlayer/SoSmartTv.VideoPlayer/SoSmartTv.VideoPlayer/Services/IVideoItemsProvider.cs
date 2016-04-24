@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SoSmartTv.VideoPlayer.ViewModels;
@@ -6,8 +7,8 @@ namespace SoSmartTv.VideoPlayer.Services
 {
 	public interface IVideoItemsProvider
 	{
-		Task<IList<IVideoItem>> GetVideoItems();
+		IObservable<IList<IVideoItem>> GetVideoItems();
 
-		Task<IVideoDetailsItem> GetVideoItem(int id);
+		IObservable<IVideoDetailsItem> GetVideoItem(int id);
 	}
 }

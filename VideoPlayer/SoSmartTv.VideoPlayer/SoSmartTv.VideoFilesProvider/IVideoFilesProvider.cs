@@ -1,18 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.Storage.FileProperties;
+﻿using System;
+using System.Collections.Generic;
+using System.Reactive;
 
 namespace SoSmartTv.VideoFilesProvider
 {
 	public interface IVideoFilesProvider
 	{
-		Task<IList<VideoProperties>> GetAllVideoFiles();
+		IObservable<IList<VideoFileProperty>> GetVideoFiles();
 
-		Task IncludeDirectoryIntoVideoLibrary();
+		IObservable<IList<VideoFileProperty>> GetVideoFiles(int offset, int filesNumber);
 
-		Task ExcludeDirectoryIntoVideoLibrary(StorageFolder folder);
+		IObservable<Unit> VideoFilesChangeNotification { get; }
 	}
 }

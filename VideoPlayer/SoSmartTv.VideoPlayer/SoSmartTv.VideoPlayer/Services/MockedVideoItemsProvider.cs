@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Omu.ValueInjecter;
 using SoSmartTv.TheMovieDatabaseApi;
+using SoSmartTv.TheMovieDatabaseApi.Dtos;
 using SoSmartTv.VideoFilesProvider;
 using SoSmartTv.VideoPlayer.ViewModels;
 
@@ -18,51 +22,33 @@ namespace SoSmartTv.VideoPlayer.Services
 			_movieDatabaseApi = movideDatabaseApi;
 			_videoFilesProvider = videoFilesProvider;
 		}
-
-		private async Task<IVideoItem> FetchVideoDetails(string title)
+		
+		public IObservable<IList<IVideoItem>> GetVideoItems()
 		{
-			var searchResult = (await _movieDatabaseApi.SearchVideo(title)).Results.FirstOrDefault();
-			if (searchResult == null)
-				return null;
-			var result = Mapper.Map<VideoItem>(searchResult);
-			return result;
+			return _videoFilesProvider.GetVideoFiles()
+				.SelectMany(items => items.Select(item => FetchVideoDetails(item.Title)).Concat().ToList());
 		}
 
-		private async Task PopulateVideoDetails(IEnumerable<string> titles)
+		public IObservable<IVideoDetailsItem> GetVideoItem(int id)
 		{
-			_videoItems = new List<IVideoItem>();
-			var tasks = titles.Select(async x => await FetchVideoDetails(x)).ToList();
-			_videoItems = (await Task.WhenAll(tasks)).Where(x => x != null).ToList();
+			return _movieDatabaseApi.GetVideoDetails(id).ToObservable()
+				.Select(x => Mapper.Map<VideoDetailsItem>(x));
+		}
+
+		private IObservable<IVideoItem> FetchVideoDetails(string title)
+		{
+			return _movieDatabaseApi.SearchVideo(title).ToObservable()
+				.Select(x => x.Results.FirstOrDefault())
+				.Where(x => x != null)
+				.Select(x => Mapper.Map<VideoItem>(x));
+		}
+
+		private IObservable<IList<IVideoItem>> PopulateVideoDetails(IEnumerable<string> titles)
+		{
+			return titles.Select(FetchVideoDetails).Concat().ToList();
 		}
 
 		private IList<IVideoItem> _videoItems;
 
-		public async Task<IList<IVideoItem>> GetVideoItems()
-		{
-			var videoFiles = await _videoFilesProvider.GetAllVideoFiles();
-			if (_videoItems == null)
-				//await PopulateVideoDetails(new List<string>
-				//{
-				//	"Dark Knight Rises",
-				//	"Dark Knight",
-				//	"Avengers",
-				//	"Avengers Age Of Ultron",
-				//	"King Kong",
-				//	"Matrix",
-				//	"Deadpool",
-				//});
-				await PopulateVideoDetails(videoFiles.Select(x => x.Title));
-			return _videoItems;
-		}
-
-		public async Task<IVideoDetailsItem> GetVideoItem(int id)
-		{
-			var details = await _movieDatabaseApi.GetVideoDetails(id);
-			if (details == null)
-				return null;
-			var result = Mapper.Map<VideoDetailsItem>(details);
-			return result;
-			//return new VideoItemDetails(details.Id, details.Title, null, details.Genres.FirstOrDefault().ToString(), details.Overview, details.PosterPath, details.BackdropPath);
-		}
 	}
 }

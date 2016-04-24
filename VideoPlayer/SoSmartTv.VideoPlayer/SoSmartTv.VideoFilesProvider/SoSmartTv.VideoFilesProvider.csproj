@@ -108,14 +108,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IVideoFilesProvider.cs" />
-    <Compile Include="IVideoFileWatcher.cs" />
     <Compile Include="TorrentFileNameParser\MapperConfiguration.cs" />
     <Compile Include="TorrentFileNameParser\TorrentVideoFileNamingPattern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TorrentFileNameParser\TorrentVideoFileInfo.cs" />
     <Compile Include="TorrentFileNameParser\TorrenVideoFileParser.cs" />
+    <Compile Include="VideoFileProperty.cs" />
     <Compile Include="VideoFilesProvider.cs" />
-    <Compile Include="VideoFileWatcher.cs" />
     <EmbeddedResource Include="Properties\SoSmartTv.VideoFilesProvider.rd.xml" />
   </ItemGroup>
   <ItemGroup />

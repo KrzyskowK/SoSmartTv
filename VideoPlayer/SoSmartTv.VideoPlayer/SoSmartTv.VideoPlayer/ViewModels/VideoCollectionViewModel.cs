@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Controls;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
@@ -14,15 +15,9 @@ namespace SoSmartTv.VideoPlayer.ViewModels
 		public VideoCollectionViewModel(IVideoItemsProvider provider, INavigationService navigationService)
 		{
 			_navigationService = navigationService;
-			PopulateVideos(provider);
+			provider.GetVideoItems().Subscribe(x => Videos = new ObservableCollection<IVideoItem>(x));
 		}
-
-		private async void PopulateVideos(IVideoItemsProvider provider)
-		{
-			var v = await provider.GetVideoItems();
-			Videos = new ObservableCollection<IVideoItem>(v);
-		}
-
+		
 		public ObservableCollection<IVideoItem> Videos
 		{
 			get { return _videos; }

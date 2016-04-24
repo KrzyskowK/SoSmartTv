@@ -2,26 +2,21 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using Omu.ValueInjecter;
 using SoSmartTv.VideoFilesProvider.TorrentFileNameParser;
 
 namespace SoSmartTv.VideoFilesProvider
 {
 	public class VideoFilesProvider : IVideoFilesProvider
 	{
-		public async Task IncludeDirectoryIntoVideoLibrary()
-		{
-			await (await StorageLibrary.GetLibraryAsync(KnownLibraryId.Videos)).RequestAddFolderAsync();
-		}
-
-		public async Task ExcludeDirectoryIntoVideoLibrary(StorageFolder folder)
-		{
-			await (await StorageLibrary.GetLibraryAsync(KnownLibraryId.Videos)).RequestRemoveFolderAsync(folder);
-		}
-
 		private readonly List<string> _videoFormatTypes = new List<string>
 		{
 			".wm",
@@ -38,31 +33,51 @@ namespace SoSmartTv.VideoFilesProvider
 			".3gp2"
 		};
 
+		private readonly StorageFileQueryResult _fileQuery;
+
+		public VideoFilesProvider()
+		{
+			_fileQuery = KnownFolders.VideosLibrary.CreateFileQueryWithOptions(CreateVideoOptions());
+			VideoFilesChangeNotification = Observable.FromEventPattern<TypedEventHandler<IStorageQueryResultBase, object>, object>(
+				h => _fileQuery.ContentsChanged += h,
+				h => _fileQuery.ContentsChanged -= h)
+				.Select(_ => Unit.Default);
+		}
+
 		private QueryOptions CreateVideoOptions()
 		{
 			return new QueryOptions(CommonFileQuery.OrderByTitle, _videoFormatTypes) { FolderDepth = FolderDepth.Deep };
 		}
 
-		public async Task<IList<VideoProperties>> GetAllVideoFiles()
+		private async Task<IList<VideoFileProperty>> GetVideoProperties(Func<Task<IReadOnlyList<StorageFile>>> fetchFiles)
 		{
-			var videoFolder = KnownFolders.VideosLibrary;
-			var query = videoFolder.CreateFileQueryWithOptions(CreateVideoOptions());
-			var files = await query.GetFilesAsync();
+			var files = await fetchFiles();
 			
-			var videoProperties = new List<VideoProperties>();
+			var videoProperties = new List<VideoFileProperty>();
 			foreach (var file in files)
 			{
-				var property = await file.Properties.GetVideoPropertiesAsync();
+				var videoProperty = await file.Properties.GetVideoPropertiesAsync().AsTask();
+				
+				var torrentProperty = TorrenVideoFileParser.Parse(file.Name);
+				var property = (VideoFileProperty)new VideoFileProperty(file.Path)
+					.InjectFrom(videoProperty)
+					.InjectFrom(torrentProperty);
 				if (!string.IsNullOrEmpty(property.Title))
 					videoProperties.Add(property);
-				else
-				{
-					var torrentInfo = TorrenVideoFileParser.Parse(file.Name);
-					property.Title = torrentInfo.Title;
-					videoProperties.Add(property);
-				}
 			}
 			return videoProperties;
 		}
+
+		public IObservable<IList<VideoFileProperty>> GetVideoFiles()
+		{
+			return Observable.FromAsync(() => GetVideoProperties(() => _fileQuery.GetFilesAsync().AsTask()));
+		}
+
+		public IObservable<IList<VideoFileProperty>> GetVideoFiles(int offset, int filesNumber)
+		{
+			return Observable.FromAsync(() => GetVideoProperties(() => _fileQuery.GetFilesAsync((uint) offset, (uint) filesNumber).AsTask()));
+		}
+
+		public IObservable<Unit> VideoFilesChangeNotification { get; }
 	}
 }

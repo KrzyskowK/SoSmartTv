@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel.Channels;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
@@ -18,15 +19,10 @@ namespace SoSmartTv.VideoPlayer.ViewModels
 
 		public override void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
 		{
-			LoadVideoDetails((int)e.Parameter);
+			_videoItemsProvider.GetVideoItem((int) e.Parameter).Subscribe(x => Details = x);
 			base.OnNavigatedTo(e, viewModelState);
 		}
 
-		private async void LoadVideoDetails(int id)
-		{
-			Details = await _videoItemsProvider.GetVideoItem(id);
-		}
-		
 		public IVideoItem Details
 		{
 			get { return _details; }
