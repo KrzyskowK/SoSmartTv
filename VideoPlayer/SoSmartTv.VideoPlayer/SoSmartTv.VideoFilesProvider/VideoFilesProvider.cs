@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Diagnostics;
 using System.Reactive;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using Omu.ValueInjecter;
 using SoSmartTv.VideoFilesProvider.TorrentFileNameParser;
@@ -38,6 +35,7 @@ namespace SoSmartTv.VideoFilesProvider
 		public VideoFilesProvider()
 		{
 			_fileQuery = KnownFolders.VideosLibrary.CreateFileQueryWithOptions(CreateVideoOptions());
+			
 			VideoFilesChangeNotification = Observable.FromEventPattern<TypedEventHandler<IStorageQueryResultBase, object>, object>(
 				h => _fileQuery.ContentsChanged += h,
 				h => _fileQuery.ContentsChanged -= h)

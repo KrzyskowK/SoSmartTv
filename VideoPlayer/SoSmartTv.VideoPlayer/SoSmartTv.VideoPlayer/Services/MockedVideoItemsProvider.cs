@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
-using System.Threading.Tasks;
+using Windows.Storage;
 using Omu.ValueInjecter;
 using SoSmartTv.TheMovieDatabaseApi;
-using SoSmartTv.TheMovieDatabaseApi.Dtos;
 using SoSmartTv.VideoFilesProvider;
 using SoSmartTv.VideoPlayer.ViewModels;
 
@@ -25,8 +24,14 @@ namespace SoSmartTv.VideoPlayer.Services
 		
 		public IObservable<IList<IVideoItem>> GetVideoItems()
 		{
-			return _videoFilesProvider.GetVideoFiles()
-				.SelectMany(items => items.Select(item => FetchVideoDetails(item.Title)).Concat().ToList());
+			var path = ApplicationData.Current.LocalFolder.Path;
+			using (var db = new VideoDbContext())
+			{
+				var x = db.VideoItems.ToList();
+			}
+
+				return _videoFilesProvider.GetVideoFiles()
+					.SelectMany(items => items.Select(item => FetchVideoDetails(item.Title)).Concat().ToList());
 		}
 
 		public IObservable<IVideoDetailsItem> GetVideoItem(int id)

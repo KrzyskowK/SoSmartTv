@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ServiceModel.Channels;
+using System.Diagnostics;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
 using SoSmartTv.VideoPlayer.Services;
+using System.Threading;
 
 namespace SoSmartTv.VideoPlayer.ViewModels
 {
@@ -19,7 +22,10 @@ namespace SoSmartTv.VideoPlayer.ViewModels
 
 		public override void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
 		{
-			_videoItemsProvider.GetVideoItem((int) e.Parameter).Subscribe(x => Details = x);
+			var context = SynchronizationContext.Current;
+			_videoItemsProvider.GetVideoItem((int) e.Parameter)
+				.ObserveOn(context)
+				.Subscribe(x => Details = x);
 			base.OnNavigatedTo(e, viewModelState);
 		}
 

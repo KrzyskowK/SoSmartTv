@@ -99,8 +99,15 @@
     <Compile Include="AppShell.xaml.cs">
       <DependentUpon>AppShell.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DispatcherScheduler.cs" />
     <Compile Include="Mappings\MapperConfiguration.cs" />
+    <Compile Include="Migrations\20160505214757_DbInitMigration.cs" />
+    <Compile Include="Migrations\20160505214757_DbInitMigration.designer.cs">
+      <DependentUpon>20160505214757_DbInitMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\VideoDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\VideoDbContext.cs" />
     <Compile Include="ViewModels\IVideoDetailsItem.cs" />
     <Compile Include="Services\IVideoItemsProvider.cs" />
     <Compile Include="Services\MockedVideoItemsProvider.cs" />

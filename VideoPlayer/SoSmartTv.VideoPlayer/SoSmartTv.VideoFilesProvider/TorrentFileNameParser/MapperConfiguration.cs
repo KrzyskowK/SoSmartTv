@@ -1,7 +1,4 @@
-﻿using Windows.Storage.FileProperties;
-using Omu.ValueInjecter;
-
-namespace SoSmartTv.VideoFilesProvider.TorrentFileNameParser
+﻿namespace SoSmartTv.VideoFilesProvider.TorrentFileNameParser
 {
 	public class MapperConfiguration
 	{
