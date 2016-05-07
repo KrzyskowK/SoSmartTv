@@ -1,11 +1,8 @@
-using System;
 using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Infrastructure;
-using Microsoft.Data.Entity.Metadata;
 using Microsoft.Data.Entity.Migrations;
-using SoSmartTv.VideoPlayer.Services;
 
-namespace SoSmartTv.VideoPlayer.Migrations
+namespace SoSmartTv.VideoService.Migrations
 {
     [DbContext(typeof(VideoDbContext))]
     [Migration("20160505214757_DbInitMigration")]

@@ -1,4 +1,4 @@
-namespace SoSmartTv.VideoPlayer.ViewModels
+namespace SoSmartTv.VideoService.Dto
 {
 	public class VideoDetailsItem : VideoItem, IVideoDetailsItem
 	{

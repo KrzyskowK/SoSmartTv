@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using SoSmartTv.VideoPlayer.ViewModels;
+using SoSmartTv.VideoService.Dto;
 
-namespace SoSmartTv.VideoPlayer.Services
+namespace SoSmartTv.VideoService.Services
 {
 	public interface IVideoItemsProvider
 	{

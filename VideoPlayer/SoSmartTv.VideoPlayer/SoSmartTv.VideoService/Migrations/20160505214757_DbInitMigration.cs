@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Data.Entity.Migrations;
 
-namespace SoSmartTv.VideoPlayer.Migrations
+namespace SoSmartTv.VideoService.Migrations
 {
     public partial class DbInitMigration : Migration
     {

@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Controls;
+using SoSmartTv.VideoService.Dto;
 
 namespace SoSmartTv.VideoPlayer.ViewModels
 {

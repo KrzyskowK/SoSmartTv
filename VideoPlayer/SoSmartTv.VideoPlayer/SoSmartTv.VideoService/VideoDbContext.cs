@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.Entity;
-using SoSmartTv.VideoPlayer.ViewModels;
+﻿using Microsoft.Data.Entity;
+using SoSmartTv.VideoService.Dto;
 
-namespace SoSmartTv.VideoPlayer.Services
+namespace SoSmartTv.VideoService
 {
 	public class VideoDbContext : DbContext
 	{
 		public DbSet<VideoItem> VideoItems { get; set; }
+		public DbSet<VideoDetailsItem> VideoDetailsItems { get; set; } 
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{

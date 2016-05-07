@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using Omu.ValueInjecter;
 using SoSmartTv.TheMovieDatabaseApi.Dtos;
-using SoSmartTv.VideoPlayer.ViewModels;
+using SoSmartTv.VideoService.Dto;
 
-namespace SoSmartTv.VideoPlayer.Mappings
+namespace SoSmartTv.VideoService.Mappings
 {
 	public class MapperConfiguration
 	{

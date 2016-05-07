@@ -6,7 +6,9 @@ using System.Threading;
 using Windows.UI.Xaml.Controls;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
-using SoSmartTv.VideoPlayer.Services;
+using SoSmartTv.VideoService;
+using SoSmartTv.VideoService.Dto;
+using SoSmartTv.VideoService.Services;
 
 namespace SoSmartTv.VideoPlayer.ViewModels
 {

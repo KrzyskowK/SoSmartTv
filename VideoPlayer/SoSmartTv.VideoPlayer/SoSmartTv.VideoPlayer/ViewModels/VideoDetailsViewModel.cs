@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
-using SoSmartTv.VideoPlayer.Services;
 using System.Threading;
+using SoSmartTv.VideoService;
+using SoSmartTv.VideoService.Dto;
+using SoSmartTv.VideoService.Services;
 
 namespace SoSmartTv.VideoPlayer.ViewModels
 {

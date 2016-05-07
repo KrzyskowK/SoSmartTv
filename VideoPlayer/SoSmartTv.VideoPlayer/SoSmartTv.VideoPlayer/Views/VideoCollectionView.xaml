@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:SoSmartTv.VideoPlayer.ViewModels"
     xmlns:mvvm="using:Prism.Windows.Mvvm"
+    xmlns:dto="using:SoSmartTv.VideoService.Dto"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
 
@@ -17,7 +18,7 @@
     <Grid Background="Black" >
         <GridView ItemsSource="{Binding Videos}" ItemClick="{x:Bind ViewModel.OnVideoClick}" IsItemClickEnabled="True">
             <GridView.ItemTemplate>
-                <DataTemplate x:DataType="viewModels:IVideoItem">
+                <DataTemplate x:DataType="dto:IVideoItem">
                     <StackPanel Orientation="Vertical" Margin="5">
                         <StackPanel Orientation="Vertical">
                             <Image Width="200" Height="266"

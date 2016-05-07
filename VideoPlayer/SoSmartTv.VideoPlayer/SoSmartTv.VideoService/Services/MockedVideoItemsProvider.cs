@@ -3,34 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
-using Windows.Storage;
 using Omu.ValueInjecter;
 using SoSmartTv.TheMovieDatabaseApi;
 using SoSmartTv.VideoFilesProvider;
-using SoSmartTv.VideoPlayer.ViewModels;
+using SoSmartTv.VideoService.Dto;
 
-namespace SoSmartTv.VideoPlayer.Services
+namespace SoSmartTv.VideoService.Services
 {
 	public class MockedVideoItemsProvider : IVideoItemsProvider
 	{
 		private readonly IMovieDatabaseApi _movieDatabaseApi;
 		private readonly IVideoFilesProvider _videoFilesProvider;
+		private readonly VideoDbContext _context;
 
-		public MockedVideoItemsProvider(IMovieDatabaseApi movideDatabaseApi, IVideoFilesProvider videoFilesProvider)
+		public MockedVideoItemsProvider(VideoDbContext context, IMovieDatabaseApi movideDatabaseApi, IVideoFilesProvider videoFilesProvider)
 		{
 			_movieDatabaseApi = movideDatabaseApi;
 			_videoFilesProvider = videoFilesProvider;
+			_context = context;
+
+			
 		}
 		
 		public IObservable<IList<IVideoItem>> GetVideoItems()
 		{
-			var path = ApplicationData.Current.LocalFolder.Path;
-			using (var db = new VideoDbContext())
-			{
-				var x = db.VideoItems.ToList();
-			}
-
-				return _videoFilesProvider.GetVideoFiles()
+			return _videoFilesProvider.GetVideoFiles()
 					.SelectMany(items => items.Select(item => FetchVideoDetails(item.Title)).Concat().ToList());
 		}
 
@@ -52,8 +49,5 @@ namespace SoSmartTv.VideoPlayer.Services
 		{
 			return titles.Select(FetchVideoDetails).Concat().ToList();
 		}
-
-		private IList<IVideoItem> _videoItems;
-
 	}
 }
