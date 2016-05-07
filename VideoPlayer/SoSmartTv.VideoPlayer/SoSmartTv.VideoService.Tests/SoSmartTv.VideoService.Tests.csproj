@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{f509c91c-4b4d-4570-b04e-40bea9dc246a}</ProjectGuid>
+    <ProjectGuid>{F509C91C-4B4D-4570-B04E-40BEA9DC246A}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SoSmartTv.VideoService.Tests</RootNamespace>
@@ -16,10 +16,8 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    
     <PackageCertificateKeyFile>SoSmartTv.VideoService.Tests_TemporaryKey.pfx</PackageCertificateKeyFile>
-    
-    <UnitTestPlatformVersion  Condition="'$(UnitTestPlatformVersion)' == ''">14.0</UnitTestPlatformVersion>
+    <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">14.0</UnitTestPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -101,7 +99,6 @@
     <Compile Include="UnitTestApp.xaml.cs">
       <DependentUpon>UnitTestApp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="UnitTestApp.xaml">
@@ -113,9 +110,8 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    
+    <Compile Include="ServiceBootstrapTest.cs" />
     <None Include="SoSmartTv.VideoService.Tests_TemporaryKey.pfx" />
-    
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\UnitTestApp.rd.xml" />
@@ -126,6 +122,23 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SoSmartTv.TheMovieDatabaseApi\SoSmartTv.TheMovieDatabaseApi.csproj">
+      <Project>{b147822f-2b99-41f9-917b-8214512392f4}</Project>
+      <Name>SoSmartTv.TheMovieDatabaseApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SoSmartTv.VideoFilesProvider\SoSmartTv.VideoFilesProvider.csproj">
+      <Project>{682412ce-a87e-4889-90b7-1742b0d56d70}</Project>
+      <Name>SoSmartTv.VideoFilesProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SoSmartTv.VideoService\SoSmartTv.VideoService.csproj">
+      <Project>{a55807ad-662a-47c4-b366-8a8a000e9f26}</Project>
+      <Name>SoSmartTv.VideoService</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

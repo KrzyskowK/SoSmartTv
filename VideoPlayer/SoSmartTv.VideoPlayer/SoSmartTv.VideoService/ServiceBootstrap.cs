@@ -11,9 +11,12 @@ namespace SoSmartTv.VideoService
 	{
 		public static void ConfigureContainer(ContainerBuilder builder)
 		{
-			builder.RegisterType<MovideDatabaseApi>().As<IMovieDatabaseApi>();
-			builder.RegisterType<VideoFilesProvider.VideoFilesProvider>().As<IVideoFilesProvider>();
-			builder.RegisterType<MockedVideoItemsProvider>().As<IVideoItemsProvider>();
+			builder.RegisterType<MovideDatabaseApi>().As<IMovieDatabaseApi>().InstancePerLifetimeScope();
+			builder.RegisterType<VideoFilesProvider.VideoFilesProvider>().As<IVideoFilesProvider>().InstancePerLifetimeScope();
+			builder.RegisterType<LocalDatabaseStore>().InstancePerLifetimeScope();
+			builder.RegisterType<MovieDatabaseStore>().InstancePerLifetimeScope();
+			builder.RegisterType<VideoItemsProvider>().As<IVideoItemsProvider>().InstancePerLifetimeScope();
+			builder.RegisterInstance(new VideoDbContext());
 			builder.RegisterInstance(new MapperConfiguration());
 		}
 

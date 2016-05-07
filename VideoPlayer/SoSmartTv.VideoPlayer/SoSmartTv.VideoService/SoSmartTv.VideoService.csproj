@@ -123,8 +123,12 @@
       <DependentUpon>20160506215225_AddingVideoDetailsItems.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\VideoDbContextModelSnapshot.cs" />
-    <Compile Include="Services\MockedVideoItemsProvider.cs" />
+    <Compile Include="Services\IVideoItemsStoreReader.cs" />
+    <Compile Include="Services\IVideoItemsStoreWritter.cs" />
+    <Compile Include="Services\LocalDatabaseStore.cs" />
+    <Compile Include="Services\VideoItemsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\MovieDatabaseStore.cs" />
     <Compile Include="VideoDbContext.cs" />
     <EmbeddedResource Include="Properties\SoSmartTv.VideoService.rd.xml" />
   </ItemGroup>
