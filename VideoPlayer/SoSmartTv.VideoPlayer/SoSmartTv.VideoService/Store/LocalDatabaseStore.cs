@@ -22,8 +22,8 @@ namespace SoSmartTv.VideoService.Services
 		public IObservable<IList<IVideoItem>> GetVideoItems(IList<VideoFileProperty> files)
 		{
 			return _context.VideoItems
-				.AsAsyncEnumerable<IVideoItem>()
 				.Where(x => files.Any(f => f.Title == x.Title))
+				.AsAsyncEnumerable<IVideoItem>()
 				.ToObservable().ToList();
 		}
 

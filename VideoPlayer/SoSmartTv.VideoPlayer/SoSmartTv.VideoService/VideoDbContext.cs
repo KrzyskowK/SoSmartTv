@@ -1,16 +1,22 @@
 ﻿using Microsoft.Data.Entity;
+using Microsoft.Data.Entity.Infrastructure;
 using SoSmartTv.VideoService.Dto;
 
 namespace SoSmartTv.VideoService
 {
 	public class VideoDbContext : DbContext
 	{
-		public DbSet<VideoItem> VideoItems { get; set; }
-		public DbSet<VideoDetailsItem> VideoDetailsItems { get; set; } 
+		public VideoDbContext(DbContextOptions options) : base(options)
+		{
+			
+		}
+
+		public virtual DbSet<VideoItem> VideoItems { get; set; }
+		public virtual DbSet<VideoDetailsItem> VideoDetailsItems { get; set; } 
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlite("Filename=sosmarttv.db");
+			
 		}
 	}
 }

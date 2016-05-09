@@ -16,18 +16,23 @@ namespace SoSmartTv.VideoService
 			builder.RegisterType<LocalDatabaseStore>().InstancePerLifetimeScope();
 			builder.RegisterType<MovieDatabaseStore>().InstancePerLifetimeScope();
 			builder.RegisterType<VideoItemsProvider>().As<IVideoItemsProvider>().InstancePerLifetimeScope();
-			builder.RegisterInstance(new VideoDbContext());
+
+			var optionsBuilder = new DbContextOptionsBuilder<VideoDbContext>();
+			optionsBuilder.UseSqlite("Filename=sosmarttv.db");
+			builder.RegisterInstance(new VideoDbContext(optionsBuilder.Options));
 			builder.RegisterInstance(new MapperConfiguration());
 		}
 
 		public static void IncludeMigrations()
 		{
-			#if DEBUG
-			using (var db = new VideoDbContext())
+#if DEBUG
+			var optionsBuilder = new DbContextOptionsBuilder<VideoDbContext>();
+			optionsBuilder.UseSqlite("Filename=sosmarttv.db");
+			using (var db = new VideoDbContext(optionsBuilder.Options))
 			{
 				db.Database.Migrate();
 			}
-			#endif
+#endif
 		}
 	}
 }

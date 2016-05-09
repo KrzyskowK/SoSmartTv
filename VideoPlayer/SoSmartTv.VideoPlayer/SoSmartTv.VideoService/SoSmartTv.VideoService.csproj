@@ -123,12 +123,13 @@
       <DependentUpon>20160506215225_AddingVideoDetailsItems.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\VideoDbContextModelSnapshot.cs" />
-    <Compile Include="Services\IVideoItemsStoreReader.cs" />
-    <Compile Include="Services\IVideoItemsStoreWritter.cs" />
-    <Compile Include="Services\LocalDatabaseStore.cs" />
+    <Compile Include="Store\IVideoItemsStoreReader.cs" />
+    <Compile Include="Store\IVideoItemsStoreWritter.cs" />
+    <Compile Include="Store\LocalDatabaseStore.cs" />
     <Compile Include="Services\VideoItemsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\MovieDatabaseStore.cs" />
+    <Compile Include="Store\MainDataStore.cs" />
+    <Compile Include="Store\MovieDatabaseStore.cs" />
     <Compile Include="VideoDbContext.cs" />
     <EmbeddedResource Include="Properties\SoSmartTv.VideoService.rd.xml" />
   </ItemGroup>
@@ -159,6 +160,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

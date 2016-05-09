@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using Omu.ValueInjecter;
 using SoSmartTv.TheMovieDatabaseApi;
 using SoSmartTv.VideoFilesProvider;
@@ -10,17 +11,20 @@ namespace SoSmartTv.VideoService.Services
 {
 	public class VideoItemsProvider : IVideoItemsProvider
 	{
-		private readonly VideoDbContext _context;
+		private readonly IVideoFilesProvider _videoFilesProvider;
 
 		public VideoItemsProvider(VideoDbContext context, IMovieDatabaseApi movideDatabaseApi, IVideoFilesProvider videoFilesProvider)
 		{
-			_context = context;
+			_videoFilesProvider = videoFilesProvider;
 		}
 
 		public IObservable<IList<IVideoItem>> GetVideoItems()
 		{
+			//_videoFilesProvider.GetVideoFiles()
+			//	.Select(x => x)
+
 			throw new NotImplementedException();
-			//return _videoFilesProvider.GetVideoFiles()
+			//return 
 			//		.SelectMany(items => items.Select(item => FetchVideoDetails(item.Title)).Concat().ToList());
 		}
 
