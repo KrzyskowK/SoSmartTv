@@ -19,31 +19,37 @@ namespace SoSmartTv.VideoService.Services
 			_context = context;
 		}
 
-		public IObservable<IList<IVideoItem>> GetVideoItems(IList<VideoFileProperty> files)
+		public IObservable<IList<VideoItem>> GetVideoItems(IList<VideoFileProperty> files)
 		{
 			return _context.VideoItems
 				.Where(x => files.Any(f => f.Title == x.Title))
-				.AsAsyncEnumerable<IVideoItem>()
+				.Join(files,x => x.Title,y=> y.Title, VideoItemOrDefault)
 				.ToObservable().ToList();
 		}
 
-		public IObservable<IVideoDetailsItem> GetVideoDetailsItem(int id)
+		private VideoItem VideoItemOrDefault(VideoItem videoItem, VideoFileProperty property)
 		{
-			return _context.VideoDetailsItems
-				.AsAsyncEnumerable<IVideoDetailsItem>()
-				.Where(x => x.Id == id)
-				.FirstOrDefault()
-				.ToObservable();
+			if(videoItem == null)
+				return new VideoItem() {Title = property.Title};
+			return videoItem;
 		}
 
-		public IObservable<Unit> PersistVideoItems(IList<IVideoItem> items)
+		public IObservable<VideoDetailsItem> GetVideoDetailsItem(int id)
+		{
+			return _context.VideoDetailsItems
+				.Where(x => x.Id == id)
+				.ToObservable()
+				.FirstOrDefaultAsync();
+		}
+
+		public IObservable<Unit> PersistVideoItems(IList<VideoItem> items)
 		{
 			_context.VideoItems.AddRange(items.Cast<VideoItem>());
 			return _context.SaveChangesAsync().ToObservable().Select(_ => Unit.Default);
 
 		}
 
-		public IObservable<Unit> PersistVideoDetailsItem(IVideoDetailsItem item)
+		public IObservable<Unit> PersistVideoDetailsItem(VideoDetailsItem item)
 		{
 			_context.VideoDetailsItems.Add(item as VideoDetailsItem);
 			return _context.SaveChangesAsync().ToObservable().Select(_ => Unit.Default);

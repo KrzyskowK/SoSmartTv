@@ -6,8 +6,8 @@ namespace SoSmartTv.VideoService.Services
 {
 	public interface IVideoItemsProvider
 	{
-		IObservable<IList<IVideoItem>> GetVideoItems();
+		IObservable<IList<VideoItem>> GetVideoItems();
 
-		IObservable<IVideoDetailsItem> GetVideoItem(int id);
+		IObservable<VideoDetailsItem> GetVideoItem(int id);
 	}
 }

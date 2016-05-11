@@ -18,7 +18,7 @@ namespace SoSmartTv.VideoService.Services
 			_videoFilesProvider = videoFilesProvider;
 		}
 
-		public IObservable<IList<IVideoItem>> GetVideoItems()
+		public IObservable<IList<VideoItem>> GetVideoItems()
 		{
 			//_videoFilesProvider.GetVideoFiles()
 			//	.Select(x => x)
@@ -28,7 +28,7 @@ namespace SoSmartTv.VideoService.Services
 			//		.SelectMany(items => items.Select(item => FetchVideoDetails(item.Title)).Concat().ToList());
 		}
 
-		public IObservable<IVideoDetailsItem> GetVideoItem(int id)
+		public IObservable<VideoDetailsItem> GetVideoItem(int id)
 		{
 			throw new NotImplementedException();
 			//return _movieDatabaseApi.GetVideoDetails(id).ToObservable()
@@ -36,7 +36,7 @@ namespace SoSmartTv.VideoService.Services
 		}
 
 
-		private IObservable<IList<IVideoItem>> PopulateVideoDetails(IEnumerable<string> titles)
+		private IObservable<IList<VideoItem>> PopulateVideoDetails(IEnumerable<string> titles)
 		{
 			throw new NotImplementedException();
 			//return titles.Select(FetchVideoDetails).Concat().ToList();

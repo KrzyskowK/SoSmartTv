@@ -1,6 +1,6 @@
 namespace SoSmartTv.VideoService.Dto
 {
-	public class VideoDetailsItem : VideoItem, IVideoDetailsItem
+	public class VideoDetailsItem : VideoItem
 	{
 		public string OriginalLanguage { get; set; }
 		public string OriginalTitle { get; set; }

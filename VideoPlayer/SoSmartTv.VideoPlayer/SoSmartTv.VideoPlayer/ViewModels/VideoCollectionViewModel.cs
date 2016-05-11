@@ -34,7 +34,7 @@ namespace SoSmartTv.VideoPlayer.ViewModels
 
 	public class VideoCollectionViewModel : ViewModelBase, IVideoCollectionViewModel
 	{
-		private ObservableCollection<IVideoItem> _videos;
+		private ObservableCollection<VideoItem> _videos;
 		private readonly INavigationService _navigationService;
 
 		public VideoCollectionViewModel(IVideoItemsProvider provider, INavigationService navigationService)
@@ -44,10 +44,10 @@ namespace SoSmartTv.VideoPlayer.ViewModels
 			
 			provider.GetVideoItems()
 				.ObserveOn(context)
-				.Subscribe(x => Videos = new ObservableCollection<IVideoItem>(x));
+				.Subscribe(x => Videos = new ObservableCollection<VideoItem>(x));
 		}
 		
-		public ObservableCollection<IVideoItem> Videos
+		public ObservableCollection<VideoItem> Videos
 		{
 			get { return _videos; }
 			private set
@@ -61,7 +61,7 @@ namespace SoSmartTv.VideoPlayer.ViewModels
 
 		public void OnVideoClick(object sender, ItemClickEventArgs e)
 		{
-			_navigationService.Navigate("VideoDetails", (e.ClickedItem as IVideoItem).Id);
+			_navigationService.Navigate("VideoDetails", (e.ClickedItem as VideoItem).Id);
 		}
 	}
 }

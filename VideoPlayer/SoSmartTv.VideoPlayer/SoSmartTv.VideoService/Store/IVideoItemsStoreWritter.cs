@@ -7,8 +7,8 @@ namespace SoSmartTv.VideoService.Services
 {
 	public interface IVideoItemsStoreWritter
 	{
-		IObservable<Unit> PersistVideoItems(IList<IVideoItem> items);
+		IObservable<Unit> PersistVideoItems(IList<VideoItem> items);
 
-		IObservable<Unit> PersistVideoDetailsItem(IVideoDetailsItem item);
+		IObservable<Unit> PersistVideoDetailsItem(VideoDetailsItem item);
 	}
 }

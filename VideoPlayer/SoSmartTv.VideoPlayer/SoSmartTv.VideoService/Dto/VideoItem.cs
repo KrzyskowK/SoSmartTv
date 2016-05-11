@@ -1,6 +1,6 @@
 namespace SoSmartTv.VideoService.Dto
 {
-	public class VideoItem : IVideoItem
+	public class VideoItem
 	{
 		public int Id { get; set; }
 		public string Title { get; set; }

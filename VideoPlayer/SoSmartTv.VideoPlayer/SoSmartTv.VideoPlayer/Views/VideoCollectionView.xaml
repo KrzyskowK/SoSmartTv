@@ -18,7 +18,7 @@
     <Grid Background="Black" >
         <GridView ItemsSource="{Binding Videos}" ItemClick="{x:Bind ViewModel.OnVideoClick}" IsItemClickEnabled="True">
             <GridView.ItemTemplate>
-                <DataTemplate x:DataType="dto:IVideoItem">
+                <DataTemplate x:DataType="dto:VideoItem">
                     <StackPanel Orientation="Vertical" Margin="5">
                         <StackPanel Orientation="Vertical">
                             <Image Width="200" Height="266"

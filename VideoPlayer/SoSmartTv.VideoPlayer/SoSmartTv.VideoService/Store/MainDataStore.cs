@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reactive.Linq;
 using SoSmartTv.VideoFilesProvider;
 using SoSmartTv.VideoService.Dto;
 
@@ -18,12 +19,13 @@ namespace SoSmartTv.VideoService.Services
 			_externalStoreReaders = externalStoreReaders;
 		}
 
-		public IObservable<IList<IVideoItem>> GetVideoItems(IList<VideoFileProperty> files)
+		public IObservable<IList<VideoItem>> GetVideoItems(IList<VideoFileProperty> files)
 		{
-			throw new NotImplementedException();
+			return _localStoreReader.GetVideoItems(files);
+			//.Where();
 		}
 
-		public IObservable<IVideoDetailsItem> GetVideoDetailsItem(int id)
+		public IObservable<VideoDetailsItem> GetVideoDetailsItem(int id)
 		{
 			throw new NotImplementedException();
 		}

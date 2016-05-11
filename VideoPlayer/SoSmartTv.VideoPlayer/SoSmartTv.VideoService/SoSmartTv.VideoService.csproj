@@ -108,8 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ServiceBootstrap.cs" />
-    <Compile Include="Dto\IVideoDetailsItem.cs" />
-    <Compile Include="Dto\IVideoItem.cs" />
     <Compile Include="Dto\VideoDetailsItem.cs" />
     <Compile Include="Dto\VideoItem.cs" />
     <Compile Include="Services\IVideoItemsProvider.cs" />

@@ -12,7 +12,7 @@ namespace SoSmartTv.VideoPlayer.ViewModels
 {
 	public class VideoDetailsViewModel : ViewModelBase, IVideoDetailsViewModel
 	{
-		private IVideoItem _details;
+		private VideoItem _details;
 		private readonly IVideoItemsProvider _videoItemsProvider;
 
 		public VideoDetailsViewModel(IVideoItemsProvider videoItemsProvider)
@@ -29,7 +29,7 @@ namespace SoSmartTv.VideoPlayer.ViewModels
 			base.OnNavigatedTo(e, viewModelState);
 		}
 
-		public IVideoItem Details
+		public VideoItem Details
 		{
 			get { return _details; }
 			private set

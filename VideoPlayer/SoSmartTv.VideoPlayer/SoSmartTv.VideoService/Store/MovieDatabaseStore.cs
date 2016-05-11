@@ -19,18 +19,18 @@ namespace SoSmartTv.VideoService.Services
 			_api = api;
 		}
 
-		public IObservable<IList<IVideoItem>> GetVideoItems(IList<VideoFileProperty> files)
+		public IObservable<IList<VideoItem>> GetVideoItems(IList<VideoFileProperty> files)
 		{
 			return files.Select(item => SearchByTitle(item.Title)).Concat().ToList();
 		}
 
-		public IObservable<IVideoDetailsItem> GetVideoDetailsItem(int id)
+		public IObservable<VideoDetailsItem> GetVideoDetailsItem(int id)
 		{
 			return _api.GetVideoDetails(id).ToObservable()
 				.Select(x => Mapper.Map<VideoDetailsItem>(x));
 		}
 
-		private IObservable<IVideoItem> SearchByTitle(string title)
+		private IObservable<VideoItem> SearchByTitle(string title)
 		{
 			return _api.SearchVideo(title).ToObservable()
 				.Select(x => x.Results.FirstOrDefault())
