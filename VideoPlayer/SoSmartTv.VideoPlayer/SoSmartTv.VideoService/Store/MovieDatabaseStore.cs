@@ -5,10 +5,9 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using Omu.ValueInjecter;
 using SoSmartTv.TheMovieDatabaseApi;
-using SoSmartTv.VideoFilesProvider;
 using SoSmartTv.VideoService.Dto;
 
-namespace SoSmartTv.VideoService.Services
+namespace SoSmartTv.VideoService.Store
 {
 	public class MovieDatabaseStore : IVideoItemsStoreReader
 	{
@@ -19,23 +18,20 @@ namespace SoSmartTv.VideoService.Services
 			_api = api;
 		}
 
-		public IObservable<IList<VideoItem>> GetVideoItems(IList<VideoFileProperty> files)
+		public IObservable<VideoItem> GetVideoItem(string title)
 		{
-			return files.Select(item => SearchByTitle(item.Title)).Concat().ToList();
+			return _api.SearchVideo(title).ToObservable().Select(x => Mapper.Map<VideoItem>(x));
+		}
+
+		public IObservable<IList<VideoItem>> GetVideoItems(IEnumerable<string> titles)
+		{
+			return titles.Select(GetVideoItem).Concat().ToList();
 		}
 
 		public IObservable<VideoDetailsItem> GetVideoDetailsItem(int id)
 		{
 			return _api.GetVideoDetails(id).ToObservable()
 				.Select(x => Mapper.Map<VideoDetailsItem>(x));
-		}
-
-		private IObservable<VideoItem> SearchByTitle(string title)
-		{
-			return _api.SearchVideo(title).ToObservable()
-				.Select(x => x.Results.FirstOrDefault())
-				.Where(x => x != null)
-				.Select(x => Mapper.Map<VideoItem>(x));
 		}
 	}
 }

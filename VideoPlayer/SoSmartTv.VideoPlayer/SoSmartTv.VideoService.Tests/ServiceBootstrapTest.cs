@@ -3,6 +3,7 @@ using Microsoft.Data.Entity;
 using SoSmartTv.VideoFilesProvider;
 using SoSmartTv.TheMovieDatabaseApi;
 using SoSmartTv.VideoService.Services;
+using SoSmartTv.VideoService.Store;
 using Xunit;
 
 namespace SoSmartTv.VideoService.Tests

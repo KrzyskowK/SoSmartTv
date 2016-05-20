@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Reactive;
 using SoSmartTv.VideoService.Dto;
 
-namespace SoSmartTv.VideoService.Services
+namespace SoSmartTv.VideoService.Store
 {
-	public interface IVideoItemsStoreWritter
+	public interface IVideoItemsStoreWriter
 	{
 		IObservable<Unit> PersistVideoItems(IList<VideoItem> items);
 

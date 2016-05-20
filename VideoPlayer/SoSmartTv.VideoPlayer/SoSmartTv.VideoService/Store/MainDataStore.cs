@@ -1,33 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reactive.Linq;
+using System.Linq;
 using SoSmartTv.VideoFilesProvider;
 using SoSmartTv.VideoService.Dto;
 
-namespace SoSmartTv.VideoService.Services
+namespace SoSmartTv.VideoService.Store
 {
-	public class MainDataStore : IVideoItemsStoreReader
+	public class MainDataStore : IVideoItemsStore
 	{
-		private readonly IVideoItemsStoreReader _localStoreReader;
-		private readonly IVideoItemsStoreWritter _localStoreWritter;
-		private readonly IList<IVideoItemsStoreReader> _externalStoreReaders;
+		private readonly IRedundantDataStore _store;
 
-		public MainDataStore(IVideoItemsStoreReader localStoreReader, IVideoItemsStoreWritter localStoreWritter, IList<IVideoItemsStoreReader> externalStoreReaders)
+		public MainDataStore(IRedundantDataStore store)
 		{
-			_localStoreReader = localStoreReader;
-			_localStoreWritter = localStoreWritter;
-			_externalStoreReaders = externalStoreReaders;
+			_store = store;
 		}
 
 		public IObservable<IList<VideoItem>> GetVideoItems(IList<VideoFileProperty> files)
 		{
-			return _localStoreReader.GetVideoItems(files);
-			//.Where();
+			var titles = files.Select(x => x.Title).ToList();
+
+			return _store.FetchCollection(titles, (p, e) => p == e.Title,
+				(reader, items) => reader.GetVideoItems(items),
+				(writer, items) => writer.PersistVideoItems(items));
 		}
 
 		public IObservable<VideoDetailsItem> GetVideoDetailsItem(int id)
 		{
-			throw new NotImplementedException();
+			return
+				_store.Fetch(id, 
+					(reader, item) => reader.GetVideoDetailsItem(item),
+					(writer, item) => writer.PersistVideoDetailsItem(item));
 		}
 	}
 }

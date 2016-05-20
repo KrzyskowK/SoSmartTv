@@ -4,6 +4,7 @@ using SoSmartTv.TheMovieDatabaseApi;
 using SoSmartTv.VideoFilesProvider;
 using SoSmartTv.VideoService.Mappings;
 using SoSmartTv.VideoService.Services;
+using SoSmartTv.VideoService.Store;
 
 namespace SoSmartTv.VideoService
 {
