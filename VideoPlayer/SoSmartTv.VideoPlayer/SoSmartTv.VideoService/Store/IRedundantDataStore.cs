@@ -7,12 +7,16 @@ namespace SoSmartTv.VideoService.Store
 	{
 		IObservable<IEnumerable<TResult>> FetchCollection<TResult, TParam>(
 			IEnumerable<TParam> parameters,
+			Func<TParam,string> innerKey,
+			Func<TResult,string> outerKey,
 			Func<TParam, TResult, bool> joinSelector,
 			Func<IVideoItemsStoreReader, IEnumerable<TParam>, IObservable<IEnumerable<TResult>>> fetchData,
 			Action<IVideoItemsStoreWriter, IEnumerable<TResult>> writeData);
 
 		IObservable<IList<TResult>> FetchCollection<TResult, TParam>(
 			IEnumerable<TParam> parameters,
+			Func<TParam, string> innerKey,
+			Func<TResult, string> outerKey,
 			Func<TParam, TResult, bool> joinSelector,
 			Func<IVideoItemsStoreReader, IEnumerable<TParam>, IObservable<IList<TResult>>> fetchData,
 			Action<IVideoItemsStoreWriter, IList<TResult>> writeData);

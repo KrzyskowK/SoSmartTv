@@ -19,7 +19,8 @@ namespace SoSmartTv.VideoService.Store
 		{
 			var titles = files.Select(x => x.Title).ToList();
 
-			return _store.FetchCollection(titles, (p, e) => p == e.Title,
+			return _store.FetchCollection(titles,
+				p => p, e => e.Title, (p, e) => p == e.Title,
 				(reader, items) => reader.GetVideoItems(items),
 				(writer, items) => writer.PersistVideoItems(items));
 		}
@@ -27,7 +28,7 @@ namespace SoSmartTv.VideoService.Store
 		public IObservable<VideoDetailsItem> GetVideoDetailsItem(int id)
 		{
 			return
-				_store.Fetch(id, 
+				_store.Fetch(id,
 					(reader, item) => reader.GetVideoDetailsItem(item),
 					(writer, item) => writer.PersistVideoDetailsItem(item));
 		}

@@ -61,31 +61,13 @@ namespace SoSmartTv.VideoService.Tests.Store
 		}
 
 		[Fact]
-		public void GetVideoItems_returns_same_count_of_items()
+		public void GetVideoItems_returns_correct_items()
 		{
 			var titles = GetInputFiles().Select(x => x.Title).ToList();
-			var result = _sut.GetVideoItems(titles).Wait();
-			Assert.Equal(result.Count, titles.Count);
-			CollectionAssert.AreEqual(result.Select(x => x.Title).ToList(), titles);
-		}
-
-		[Fact]
-		public void GetVideoItems_returns_matching_items_unchanged()
-		{
-			var titles = GetInputFiles().Select(x => x.Title).ToList();
-			var result = _sut.GetVideoItems(titles).Wait();
-			var dbResults = result.Where(x => x.Title == "A" || x.Title == "D" || x.Title == "F").ToList();
-			Assert.Equal(dbResults.Count, _data.Count);
-			CollectionAssert.AreEqual(dbResults.Select(x => x.Id).ToList(), _data.Select(x => x.Id).ToList());
-		}
-
-		[Fact]
-		public void GetVideoItems_returns_unmatching_items_as_dummy_videoItems()
-		{
-			var titles = GetInputFiles().Select(x => x.Title).ToList();
-			var result = _sut.GetVideoItems(titles).Wait();
-			var dummyResults = result.Where(x => x.Title != "A" && x.Title != "D" && x.Title != "F").ToList();
-			Assert.True(dummyResults.All(x => x.Id == 0));
+			var results = _sut.GetVideoItems(titles).Wait();
+			
+			Assert.Equal(results.Count, _data.Count);
+			CollectionAssert.AreEqual(results.Select(x => x.Id).ToList(), _data.Select(x => x.Id).ToList());
 		}
 	}
 }

@@ -18,25 +18,23 @@ namespace SoSmartTv.VideoService.Store
 			_externalStoreReaders = externalStoreReaders;
 		}
 
-		public IObservable<IEnumerable<TResult>> FetchCollection<TResult, TParam>(IEnumerable<TParam> parameters, Func<TParam, TResult, bool> joinSelector, Func<IVideoItemsStoreReader, IEnumerable<TParam>, IObservable<IEnumerable<TResult>>> fetchData, Action<IVideoItemsStoreWriter, IEnumerable<TResult>> writeData)
+		public IObservable<IEnumerable<TResult>> FetchCollection<TResult, TParam>(IEnumerable<TParam> parameters, Func<TParam, string> innerKey, Func<TResult, string> outerKey, Func<TParam, TResult, bool> joinSelector,
+			Func<IVideoItemsStoreReader, IEnumerable<TParam>, IObservable<IEnumerable<TResult>>> fetchData, Action<IVideoItemsStoreWriter, IEnumerable<TResult>> writeData)
 		{
 			return
 				fetchData(_localStoreReader, parameters)
-					.Select(x => parameters.ToUnifiedCollection(x, joinSelector))
-					.SelectMany(x => fetchData(_externalStoreReaders, x.OnlyNotJoined)
-						.Do(e => writeData(_localStoreWriter, e))
-						.Select(e => x.JoinIfEmpty(e)))
+					.Select(x => parameters.ToUnifiedCollection(x, joinSelector, innerKey, outerKey))
+					.SelectMany(x => x.IsAnyNotJoined ? FetchDataAndJoin(fetchData, writeData, x) : Observable.Return(x))
 					.Select(x => x.OnlyJoined.ToList());
 		}
 
-		public IObservable<IList<TResult>> FetchCollection<TResult, TParam>(IEnumerable<TParam> parameters, Func<TParam, TResult, bool> joinSelector, Func<IVideoItemsStoreReader, IEnumerable<TParam>, IObservable<IList<TResult>>> fetchData, Action<IVideoItemsStoreWriter, IList<TResult>> writeData)
+		public IObservable<IList<TResult>> FetchCollection<TResult, TParam>(IEnumerable<TParam> parameters, Func<TParam, string> innerKey, Func<TResult, string> outerKey, Func<TParam, TResult, bool> joinSelector,
+			Func<IVideoItemsStoreReader, IEnumerable<TParam>, IObservable<IList<TResult>>> fetchData, Action<IVideoItemsStoreWriter, IList<TResult>> writeData)
 		{
 			return
 				fetchData(_localStoreReader, parameters)
-					.Select(x => parameters.ToUnifiedCollection(x, joinSelector))
-					.SelectMany(x => fetchData(_externalStoreReaders, x.OnlyNotJoined)
-						.Do(e => writeData(_localStoreWriter, e))
-						.Select(e => x.JoinIfEmpty(e)))
+					.Select(x => parameters.ToUnifiedCollection(x, joinSelector, innerKey, outerKey))
+					.SelectMany(x => x.IsAnyNotJoined ? FetchDataAndJoin(fetchData, writeData, x) : Observable.Return(x))
 					.Select(x => x.OnlyJoined.ToList());
 		}
 
@@ -46,10 +44,25 @@ namespace SoSmartTv.VideoService.Store
 		{
 			return
 				fetchData(_localStoreReader, parameter)
-					.Where(x => x != null)
-					.DefaultIfEmpty(fetchData(_externalStoreReaders, parameter)
+					.Select(x => x != null ? x : fetchData(_externalStoreReaders, parameter)
 						.Do(e => writeData(_localStoreWriter, e))
 						.Wait());
 		}
+
+
+		private IObservable<RedundantCollection<TParam, TResult>> FetchDataAndJoin<TResult, TParam>(Func<IVideoItemsStoreReader, IEnumerable<TParam>, IObservable<IEnumerable<TResult>>> fetchData, Action<IVideoItemsStoreWriter, IEnumerable<TResult>> writeData, RedundantCollection<TParam, TResult> collection)
+		{
+			return fetchData(_externalStoreReaders, collection.OnlyNotJoined)
+				.Do(e => writeData(_localStoreWriter, e))
+				.Select(e => collection.JoinIfEmpty(e));
+		}
+
+		private IObservable<RedundantCollection<TParam, TResult>> FetchDataAndJoin<TResult, TParam>(Func<IVideoItemsStoreReader, IEnumerable<TParam>, IObservable<IList<TResult>>> fetchData, Action<IVideoItemsStoreWriter, IList<TResult>> writeData, RedundantCollection<TParam, TResult> collection)
+		{
+			return fetchData(_externalStoreReaders, collection.OnlyNotJoined)
+				.Do(e => writeData(_localStoreWriter, e))
+				.Select(e => collection.JoinIfEmpty(e));
+		}
+
 	}
 }

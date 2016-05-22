@@ -5,27 +5,29 @@ namespace SoSmartTv.VideoService.Store
 {
 	public static class RedundantCollectionExtensions
 	{
-		public static RedundantCollection<T, TLeft> ToUnifiedCollection<T, TLeft>(this IEnumerable<T> baseCollection,
-			IEnumerable<TLeft> joinedCollection, Func<T, TLeft, bool> joinPredicate)
+		public static RedundantCollection<T, TOuter> ToUnifiedCollection<T, TOuter>(this IEnumerable<T> baseCollection,
+			IEnumerable<TOuter> joinedCollection, Func<T, TOuter, bool> joinPredicate, Func<T, string> innerKeySelector,
+			Func<TOuter, string> outerKeySelector)
 		{
-			return new RedundantCollection<T, TLeft>(baseCollection, joinedCollection, joinPredicate);
+			return new RedundantCollection<T, TOuter>(baseCollection, joinedCollection, joinPredicate, innerKeySelector, outerKeySelector);
 		}
 
-		public static RedundantCollection<T, TLeft> ToUnifiedCollection<T, TLeft>(this IList<T> baseCollection,
-			IList<TLeft> joinedCollection, Func<T, TLeft, bool> joinPredicate)
+		public static RedundantCollection<T, TOuter> ToUnifiedCollection<T, TOuter>(this IList<T> baseCollection,
+			IList<TOuter> joinedCollection, Func<T, TOuter, bool> joinPredicate, Func<T, string> innerKeySelector,
+			Func<TOuter, string> outerKeySelector)
 		{
-			return new RedundantCollection<T, TLeft>(baseCollection, joinedCollection, joinPredicate);
+			return new RedundantCollection<T, TOuter>(baseCollection, joinedCollection, joinPredicate, innerKeySelector, outerKeySelector);
 		}
 
-		public static RedundantCollection<T, TLeft> JoinIfEmpty<T, TLeft>(this RedundantCollection<T, TLeft> redundantCollection, IList<TLeft> joinedCollection,
-			Func<T, TLeft, bool> joinPredicate = null)
+		public static RedundantCollection<T, TOuter> JoinIfEmpty<T, TOuter>(this RedundantCollection<T, TOuter> redundantCollection, IList<TOuter> joinedCollection,
+			Func<T, TOuter, bool> joinPredicate = null)
 		{
 			redundantCollection.JoinIfEmpty(joinedCollection, joinPredicate);
 			return redundantCollection;
 		}
 
-		public static RedundantCollection<T, TLeft> JoinIfEmpty<T, TLeft>(this RedundantCollection<T, TLeft> redundantCollection, IEnumerable<TLeft> joinedCollection,
-			Func<T, TLeft, bool> joinPredicate = null)
+		public static RedundantCollection<T, TOuter> JoinIfEmpty<T, TOuter>(this RedundantCollection<T, TOuter> redundantCollection, IEnumerable<TOuter> joinedCollection,
+			Func<T, TOuter, bool> joinPredicate = null)
 		{
 			redundantCollection.JoinIfEmpty(joinedCollection, joinPredicate);
 			return redundantCollection;
