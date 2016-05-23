@@ -40,7 +40,7 @@ namespace SoSmartTv.VideoService.Tests.Store
 		}
 
 		[Fact]
-		public void FetchCollection_returns_all_data_from_localReader_and_ignores_externalReader()
+		public void Returns_all_data_from_localReader_and_ignores_externalReader()
 		{
 			var localItems = GetVideoItems();
 			var externalItems = GetVideoItems().Do(x => x.Id += 100).ToList();
@@ -53,7 +53,7 @@ namespace SoSmartTv.VideoService.Tests.Store
 		}
 
 		[Fact]
-		public void FetchCollection_returns_all_data_from_externalReader_when_localReader_empty()
+		public void Returns_all_data_from_externalReader_when_localReader_empty()
 		{
 			var localItems = new List<VideoItem>();
 			var externalItems = GetVideoItems().Do(x => x.Id += 100).ToList();
@@ -64,7 +64,18 @@ namespace SoSmartTv.VideoService.Tests.Store
 		}
 
 		[Fact]
-		public void FetchCollection_returns_part_of_data_from_externalReader_when_localReader_returns_only_part_of_it()
+		public void Persists_all_data_from_externalReader()
+		{
+			var localItems = new List<VideoItem>();
+			var externalItems = GetVideoItems().Do(x => x.Id += 100).ToList();
+
+			Arrange(localItems, externalItems);
+			var results = Act(GetVideoItems().Select(i => i.Title)).Wait();
+			A.CallTo(() => _localStoreWriter.PersistVideoItems(externalItems)).MustHaveHappened();
+		}
+
+		[Fact]
+		public void Returns_part_of_data_from_externalReader_when_localReader_returns_only_part_of_it()
 		{
 			var localItems = GetVideoItems().Take(2).Skip(2).Take(2).TakeLast(2).ToList();
 			var externalItems = GetVideoItems().Skip(2).Take(2).Skip(2).Take(12).Do(x => x.Id += 100).ToList();
@@ -76,7 +87,7 @@ namespace SoSmartTv.VideoService.Tests.Store
 		}
 
 		[Fact]
-		public void FetchCollection_returns_only_matched_records()
+		public void Returns_only_matched_records()
 		{
 			var localItems = GetVideoItems().Take(2).ToList();
 			var externalItems = GetVideoItems().TakeLast(2).Do(x => x.Id += 100).ToList();
@@ -88,7 +99,7 @@ namespace SoSmartTv.VideoService.Tests.Store
 		}
 
 		[Fact]
-		public void FetchCollection_returns_empty_when_no_matched_records()
+		public void Returns_empty_when_no_matched_records()
 		{
 			var localItems = new List<VideoItem>();
 			var externalItems = new List<VideoItem>();

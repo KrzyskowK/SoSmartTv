@@ -25,24 +25,24 @@ namespace SoSmartTv.VideoService.Tests.Store
 
 		private void AssertFetch(VideoDetailsItem results, VideoDetailsItem expected)
 		{
-			Assert.Equal(results.Title,expected.Title);
+			Assert.Equal(results.Title, expected.Title);
 			Assert.Equal(results.Id, expected.Id);
 		}
 
 		[Fact]
-		public void Fetch_returns_all_data_from_localReader_and_ignores_externalReader()
+		public void Returns_all_data_from_localReader_and_ignores_externalReader()
 		{
-			var local = new VideoDetailsItem() {Id = 1, Title = "Title1"};
+			var local = new VideoDetailsItem() { Id = 1, Title = "Title1" };
 			var external = new VideoDetailsItem() { Id = 100, Title = "Title1" };
 
-			Arrange(local,external);
+			Arrange(local, external);
 			var result = Act(1).Wait();
-			AssertFetch(result,local);
+			AssertFetch(result, local);
 			A.CallTo(() => _externalStoreReader.GetVideoDetailsItem(A<int>._)).MustNotHaveHappened();
 		}
-		
+
 		[Fact]
-		public void FetchCollection_returns_all_data_from_externalReader_when_localReader_empty()
+		public void Returns_all_data_from_externalReader_when_localReader_empty()
 		{
 			var local = (VideoDetailsItem)null;
 			var external = new VideoDetailsItem() { Id = 100, Title = "Title1" };
@@ -51,9 +51,20 @@ namespace SoSmartTv.VideoService.Tests.Store
 			var result = Act(1).Wait();
 			AssertFetch(result, external);
 		}
-		
+
 		[Fact]
-		public void FetchCollection_returns_null_when_no_matched_records()
+		public void Persists_all_data_from_externalReader()
+		{
+			var local = (VideoDetailsItem)null;
+			var external = new VideoDetailsItem() { Id = 100, Title = "Title1" };
+
+			Arrange(local, external);
+			var result = Act(1).Wait();
+			A.CallTo(()=>_localStoreWriter.PersistVideoDetailsItem(external)).MustHaveHappened();
+		}
+
+		[Fact]
+		public void Returns_null_when_no_matched_records()
 		{
 			var local = (VideoDetailsItem)null;
 			var external = (VideoDetailsItem)null;
