@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+using Autofac;
+using Autofac.Core;
 using Microsoft.Data.Entity;
 using SoSmartTv.TheMovieDatabaseApi;
 using SoSmartTv.VideoFilesProvider;
@@ -14,8 +16,15 @@ namespace SoSmartTv.VideoService
 		{
 			builder.RegisterType<MovideDatabaseApi>().As<IMovieDatabaseApi>().InstancePerLifetimeScope();
 			builder.RegisterType<VideoFilesProvider.VideoFilesProvider>().As<IVideoFilesProvider>().InstancePerLifetimeScope();
+
 			builder.RegisterType<LocalDatabaseStore>().InstancePerLifetimeScope();
 			builder.RegisterType<MovieDatabaseStore>().InstancePerLifetimeScope();
+			builder.RegisterType<MainDataStore>().As<IVideoItemsStore>().InstancePerLifetimeScope();
+			builder.RegisterType<RedundantDataStore>().As<IRedundantDataStore>().InstancePerLifetimeScope()
+				.WithParameter((p, c) => p.Name == "localStoreReader", (p, c) => c.Resolve<LocalDatabaseStore>())
+				.WithParameter((p, c) => p.Name == "externalStoreReader", (p, c) => c.Resolve<MovieDatabaseStore>())
+				.WithParameter((p, c) => p.Name == "localStoreWriter", (p, c) => c.Resolve<LocalDatabaseStore>());
+			
 			builder.RegisterType<VideoItemsProvider>().As<IVideoItemsProvider>().InstancePerLifetimeScope();
 
 			var optionsBuilder = new DbContextOptionsBuilder<VideoDbContext>();

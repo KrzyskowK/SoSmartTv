@@ -9,13 +9,13 @@ namespace SoSmartTv.VideoService.Store
 	{
 		private readonly IVideoItemsStoreReader _localStoreReader;
 		private readonly IVideoItemsStoreWriter _localStoreWriter;
-		private readonly IVideoItemsStoreReader _externalStoreReaders;
+		private readonly IVideoItemsStoreReader _externalStoreReader;
 
-		public RedundantDataStore(IVideoItemsStoreReader localStoreReader, IVideoItemsStoreWriter localStoreWriter, IVideoItemsStoreReader externalStoreReaders)
+		public RedundantDataStore(IVideoItemsStoreReader localStoreReader, IVideoItemsStoreWriter localStoreWriter, IVideoItemsStoreReader externalStoreReader)
 		{
 			_localStoreReader = localStoreReader;
 			_localStoreWriter = localStoreWriter;
-			_externalStoreReaders = externalStoreReaders;
+			_externalStoreReader = externalStoreReader;
 		}
 
 		public IObservable<IEnumerable<TResult>> FetchCollection<TResult, TParam>(IEnumerable<TParam> parameters, Func<TParam, string> innerKey, Func<TResult, string> outerKey, Func<TParam, TResult, bool> joinSelector,
@@ -44,7 +44,7 @@ namespace SoSmartTv.VideoService.Store
 		{
 			return
 				fetchData(_localStoreReader, parameter)
-					.Select(x => x != null ? x : fetchData(_externalStoreReaders, parameter)
+					.Select(x => x != null ? x : fetchData(_externalStoreReader, parameter)
 						.Do(e => writeData(_localStoreWriter, e))
 						.Wait());
 		}
@@ -52,14 +52,15 @@ namespace SoSmartTv.VideoService.Store
 
 		private IObservable<RedundantCollection<TParam, TResult>> FetchDataAndJoin<TResult, TParam>(Func<IVideoItemsStoreReader, IEnumerable<TParam>, IObservable<IEnumerable<TResult>>> fetchData, Action<IVideoItemsStoreWriter, IEnumerable<TResult>> writeData, RedundantCollection<TParam, TResult> collection)
 		{
-			return fetchData(_externalStoreReaders, collection.OnlyNotJoined)
+			return fetchData(_externalStoreReader, collection.OnlyNotJoined)
+				.Where(e => e != null)
 				.Do(e => writeData(_localStoreWriter, e))
 				.Select(e => collection.JoinIfEmpty(e));
 		}
 
 		private IObservable<RedundantCollection<TParam, TResult>> FetchDataAndJoin<TResult, TParam>(Func<IVideoItemsStoreReader, IEnumerable<TParam>, IObservable<IList<TResult>>> fetchData, Action<IVideoItemsStoreWriter, IList<TResult>> writeData, RedundantCollection<TParam, TResult> collection)
 		{
-			return fetchData(_externalStoreReaders, collection.OnlyNotJoined)
+			return fetchData(_externalStoreReader, collection.OnlyNotJoined)
 				.Do(e => writeData(_localStoreWriter, e))
 				.Select(e => collection.JoinIfEmpty(e));
 		}

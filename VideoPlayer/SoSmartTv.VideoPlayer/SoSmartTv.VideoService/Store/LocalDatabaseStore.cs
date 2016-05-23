@@ -55,7 +55,10 @@ namespace SoSmartTv.VideoService.Store
 
 		public IObservable<Unit> PersistVideoDetailsItem(VideoDetailsItem item)
 		{
-			_context.VideoDetailsItems.Add(item);
+			if(item.Id == 0)
+				_context.VideoDetailsItems.Add(item);
+			else
+				_context.VideoDetailsItems.Update(item);
 			return _context.SaveChangesAsync().ToObservable().Select(_ => Unit.Default);
 		}
 	}

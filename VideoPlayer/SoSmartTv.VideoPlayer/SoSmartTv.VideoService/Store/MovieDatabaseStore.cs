@@ -20,12 +20,14 @@ namespace SoSmartTv.VideoService.Store
 
 		public IObservable<VideoItem> GetVideoItem(string title)
 		{
-			return _api.SearchVideo(title).ToObservable().Select(x => Mapper.Map<VideoItem>(x));
+			return _api.SearchVideo(title).ToObservable()
+				.Where(x => x.Results.FirstOrDefault() != null)
+				.Select(x => Mapper.Map<VideoItem>(x.Results.FirstOrDefault()));
 		}
 
 		public IObservable<IList<VideoItem>> GetVideoItems(IEnumerable<string> titles)
 		{
-			return titles.Select(GetVideoItem).Concat().ToList();
+			return titles.Select(GetVideoItem).Concat().Distinct(x => x.Title).ToList();
 		}
 
 		public IObservable<VideoDetailsItem> GetVideoDetailsItem(int id)

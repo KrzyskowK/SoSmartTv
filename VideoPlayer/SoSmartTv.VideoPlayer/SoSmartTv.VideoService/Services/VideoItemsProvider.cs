@@ -1,45 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Linq;
-using Omu.ValueInjecter;
-using SoSmartTv.TheMovieDatabaseApi;
 using SoSmartTv.VideoFilesProvider;
 using SoSmartTv.VideoService.Dto;
+using SoSmartTv.VideoService.Store;
 
 namespace SoSmartTv.VideoService.Services
 {
 	public class VideoItemsProvider : IVideoItemsProvider
 	{
-		private readonly IVideoFilesProvider _videoFilesProvider;
+		private readonly IVideoFilesProvider _filesProvider;
+		private readonly IVideoItemsStore _store;
 
-		public VideoItemsProvider(VideoDbContext context, IMovieDatabaseApi movideDatabaseApi, IVideoFilesProvider videoFilesProvider)
+		public VideoItemsProvider(IVideoItemsStore store, IVideoFilesProvider filesProvider)
 		{
-			_videoFilesProvider = videoFilesProvider;
+			_filesProvider = filesProvider;
+			_store = store;
 		}
 
 		public IObservable<IList<VideoItem>> GetVideoItems()
 		{
-			//_videoFilesProvider.GetVideoFiles()
-			//	.Select(x => x)
-
-			throw new NotImplementedException();
-			//return 
-			//		.SelectMany(items => items.Select(item => FetchVideoDetails(item.Title)).Concat().ToList());
+			return _filesProvider.GetVideoFiles()
+				.SelectMany(x => _store.GetVideoItems(x));
 		}
 
 		public IObservable<VideoDetailsItem> GetVideoItem(int id)
 		{
-			throw new NotImplementedException();
-			//return _movieDatabaseApi.GetVideoDetails(id).ToObservable()
-			//	.Select(x => Mapper.Map<VideoDetailsItem>(x));
-		}
-
-
-		private IObservable<IList<VideoItem>> PopulateVideoDetails(IEnumerable<string> titles)
-		{
-			throw new NotImplementedException();
-			//return titles.Select(FetchVideoDetails).Concat().ToList();
+			return _store.GetVideoDetailsItem(id);
 		}
 	}
 }

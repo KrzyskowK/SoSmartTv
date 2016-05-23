@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Reactive.Concurrency;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
@@ -8,7 +9,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Autofac;
 using Prism.Autofac.Windows;
+using Prism.Mvvm;
 using SoSmartTv.VideoService;
+using SoSmartTv.VideoService.Services;
 
 namespace SoSmartTv.VideoPlayer
 {
@@ -23,7 +26,7 @@ namespace SoSmartTv.VideoPlayer
 		protected override UIElement CreateShell(Frame rootFrame)
 		{
 			var shell = Container.Resolve<AppShell>();
-			shell.SetContentFrame(rootFrame);	
+			shell.SetContentFrame(rootFrame);
 			return shell;
 		}
 
@@ -35,11 +38,28 @@ namespace SoSmartTv.VideoPlayer
 			throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceLoader.GetForCurrentView("/Prism.Windows/Resources/").GetString("DefaultPageTypeLookupErrorMessage"), pageToken, GetType().Namespace + ".Views"), nameof(pageToken));
 		}
 
+		protected override void ConfigureViewModelLocator()
+		{
+			base.ConfigureViewModelLocator();
+			ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =>
+			{
+				var viewName = viewType.FullName;
+				viewName = viewName.Replace(".Views.", ".ViewModels.");
+				var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+				var suffix = viewName.EndsWith("View") ? "Model" : "ViewModel";
+				var viewModelName = string.Format(CultureInfo.InvariantCulture, "{0}{1}", viewName, suffix);
+
+				var assembly = viewType.GetTypeInfo().Assembly;
+				var type = assembly.GetType(viewModelName, true, true);
+
+				return type;
+			});
+		}
+
 		protected override void ConfigureContainer(ContainerBuilder builder)
 		{
-			DispatcherScheduler.Instance = Scheduler.CurrentThread;
 			ServiceBootstrap.ConfigureContainer(builder);
-			
+
 			base.ConfigureContainer(builder);
 		}
 
