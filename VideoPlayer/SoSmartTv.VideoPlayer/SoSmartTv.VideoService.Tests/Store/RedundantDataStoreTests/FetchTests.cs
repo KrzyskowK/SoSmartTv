@@ -71,6 +71,7 @@ namespace SoSmartTv.VideoService.Tests.Store
 
 			Arrange(local, external);
 			var result = Act(1).Wait();
+
 			Assert.Null(result);
 		}
 	}
